@@ -4,6 +4,7 @@
 #include <vector>
 #include "Map.h"
 #include "Helpers.h"
+#include "RayCaster.h"
 
 Player::Player() { Player({ 300,300 }); }
 
@@ -11,6 +12,7 @@ Player::Player(Vector2 startPos) {
 	moveVec = { 0, 0 };
 	rotation = 0;
 	lookVec = { 0,  0, };
+	horizontalVec = {0,0};
 	position = { startPos.x, startPos.y }; 
 	speed = 2;
 }
@@ -31,7 +33,8 @@ void Player::setLookDir(bool lookDir)
 		rotation++;
 	}
 
-	getRayFromAngle(DEG2RAD*rotation);
+	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * rotation + (DEG2RAD * FOV/2)));
+	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * rotation + DEG2RAD * FOV/2) + (DEG2RAD * 90)));
 
 }
 
@@ -51,9 +54,13 @@ float Player::getRotation()
 
 void Player::updatePosition()
 {
-	position.x += moveVec.x * speed;
-	position.y += moveVec.y * speed;
+	
+	position.y += moveVec.x * horizontalVec.y * speed;
+	position.x += moveVec.x * horizontalVec.x * speed;
+	position.y += moveVec.y * lookVec.y * speed;
+	position.x += moveVec.y * lookVec.x * speed;
 }
+	
 
 Vector2 Player::getMoveVec() {
 	return moveVec;

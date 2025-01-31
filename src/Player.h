@@ -20,6 +20,7 @@ public:
 private: 
 	Vector2 moveVec;  // Movement vector
 	Vector2 lookVec;  // Normalized vector representing the look direction
+	Vector2 horizontalVec; // the vector perpendicular to the look direction. 
 	Vector2 position;
 	int rotation; // rotation in degrees.
 	Vector2 rays[100];

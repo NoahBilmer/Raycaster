@@ -25,8 +25,7 @@ std::array<Ray2d, RAYCOUNT> RayCaster::castRays()
 {
 	std::array<Ray2d, RAYCOUNT> rays;
 	float theta = player->getRotation()*DEG2RAD;
-	int fov = 66;
-	const long float deg = (0.0174533 * fov) / RAYCOUNT;
+	const long float deg = (0.0174533 * FOV) / RAYCOUNT;
 	theta = theta - deg;
 	Ray2d ray = Ray2d({-1,-1},BLUE);
 	for (int i = 0; i < RAYCOUNT; i++) {
