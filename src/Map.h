@@ -32,5 +32,7 @@ public:
 
 	std::vector<Line> getMap();
 
+	void createRect(Rectangle rect, Color color);
+
 };
 

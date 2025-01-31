@@ -1,5 +1,7 @@
 #pragma once
 #include "raylib.h"
+#include "Map.h"
+#include <iostream>
 
 class Player
 {
@@ -12,15 +14,15 @@ public:
 	void setLookDir(bool lookDir);
 	Vector2 getLookVec();
 	Vector2 getPosition();
+	float getRotation();
 	void updatePosition();
-	float angleBetween(Vector2 firstVec, Vector2 secondVec);
 
 private: 
-	void updateLookVec(float theta);
 	Vector2 moveVec;  // Movement vector
 	Vector2 lookVec;  // Normalized vector representing the look direction
 	Vector2 position;
 	int rotation; // rotation in degrees.
+	Vector2 rays[100];
 	float speed;
 };
 

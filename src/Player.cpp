@@ -1,16 +1,18 @@
 #include "Player.h"
 #include "raymath.h"
 #include "raylib.h"
+#include <vector>
+#include "Map.h"
+#include "Helpers.h"
 
 Player::Player() { Player({ 300,300 }); }
-
 
 Player::Player(Vector2 startPos) { 
 	moveVec = { 0, 0 };
 	rotation = 0;
 	lookVec = { 0,  0, };
 	position = { startPos.x, startPos.y }; 
-	speed = 5;
+	speed = 2;
 }
 
 
@@ -29,7 +31,7 @@ void Player::setLookDir(bool lookDir)
 		rotation++;
 	}
 
-	updateLookVec(DEG2RAD*rotation);
+	getRayFromAngle(DEG2RAD*rotation);
 
 }
 
@@ -40,6 +42,11 @@ Vector2 Player::getLookVec() {
 Vector2 Player::getPosition()
 {
 	return position;
+}
+
+float Player::getRotation()
+{
+	return rotation;
 }
 
 void Player::updatePosition()
@@ -65,8 +72,5 @@ void Player::UpdateStateVecs(Vector2 newMove, Vector2 newLook) {
 
 }
 
-// Function to calculate the angle between two vectors
-void Player::updateLookVec(float theta) {
-	lookVec.x = cos(theta);
-	lookVec.y = sin(theta);
-}
+
+

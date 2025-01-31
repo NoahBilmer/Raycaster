@@ -29,8 +29,7 @@ int main(void)
     {
         game.update();
     }
-
     #endif
-
+    
     return 0;
 }
