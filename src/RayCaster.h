@@ -7,6 +7,7 @@
 
 #define RAYCOUNT 450
 #define RAYSIZE 1000
+#define FOV 66
 
 struct Ray2d {
 	Vector2 point;

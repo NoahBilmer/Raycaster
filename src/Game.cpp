@@ -95,17 +95,15 @@ void Game::render() {
 
 void Game::getInput() {
     Vector2 vec = { 0 , 0 };
-    if (IsKeyDown(KEY_W))
-        vec.y--;
-    if (IsKeyDown(KEY_S))
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
         vec.y++;
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+        vec.y--;
     if (IsKeyDown(KEY_A))
         vec.x--;
     if (IsKeyDown(KEY_D))
         vec.x++;
     player.setMoveVec(vec);
-    vec.x = 0;
-    vec.y = 0;
     if (IsKeyDown(KEY_LEFT)) {
         player.setLookDir(1);
     }
@@ -146,7 +144,7 @@ void Game::drawView() {
             vec2.x += 1;
             if (ray.point.x == -1 && ray.point.y == -1)
                 continue;
-            intensity = (0.9 / dist) * 100;
+            intensity = (0.9 / dist) * 50;
             colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
             colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
             colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r);
