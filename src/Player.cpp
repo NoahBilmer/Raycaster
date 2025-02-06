@@ -6,35 +6,38 @@
 #include "Helpers.h"
 #include "RayCaster.h"
 
-Player::Player() { Player({ 300,300 }); }
 
-Player::Player(Vector2 startPos) { 
+Player::Player() {
 	moveVec = { 0, 0 };
-	rotation = 0;
 	lookVec = { 0,  0, };
-	horizontalVec = {0,0};
-	position = { startPos.x, startPos.y }; 
+	horizontalVec = { 0,0 };
 	speed = 2;
+	this->map = new Map();
+	this->entity = new Entity{ Vector2{500,500},90 };
 }
 
+Player::Player(Vector2 startPos, Map& map) : Player() { 
+	this->map = &map;
+	this->entity = new Entity{ startPos,90 };
+}
 
 void Player::setLookDir(bool lookDir)
 {
 	
-	if (rotation > 360)
-		rotation = 0;
-	if (rotation < 0)
-		rotation = 360;
+	if (entity->rotation > 360)
+		entity->rotation = 0;
+	if (entity->rotation < 0)
+		entity->rotation = 360;
 		
 	if (lookDir) { // we wish to look right
-		rotation--;
+		entity->rotation--;
 	}
 	else { // we wish to look left.
-		rotation++;
+		entity->rotation++;
 	}
 
-	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * rotation + (DEG2RAD * FOV/2)));
-	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * rotation + DEG2RAD * FOV/2) + (DEG2RAD * 90)));
+	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * FOV/2)));
+	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * entity->rotation + DEG2RAD * FOV/2) + (DEG2RAD * 90)));
 
 }
 
@@ -44,21 +47,26 @@ Vector2 Player::getLookVec() {
 
 Vector2 Player::getPosition()
 {
-	return position;
+	return entity->position;
 }
 
 float Player::getRotation()
 {
-	return rotation;
+	return entity->rotation;
 }
 
 void Player::updatePosition()
 {
 	
-	position.y += moveVec.x * horizontalVec.y * speed;
-	position.x += moveVec.x * horizontalVec.x * speed;
-	position.y += moveVec.y * lookVec.y * speed;
-	position.x += moveVec.y * lookVec.x * speed;
+	entity->position.y += moveVec.x * horizontalVec.y * speed;
+	entity->position.x += moveVec.x * horizontalVec.x * speed;
+	entity->position.y += moveVec.y * lookVec.y * speed;
+	entity->position.x += moveVec.y * lookVec.x * speed;
+}
+
+Entity* Player::getEntity()
+{
+	return entity;
 }
 	
 

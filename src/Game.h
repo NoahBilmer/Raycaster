@@ -9,6 +9,7 @@ private:
 	Player player;
 	Map map;
 	RayCaster rayCaster;
+	RayCaster light;
 	const int screenWidth = 1200;
 	const int screenHeight = 1000;
 	int frameCounter;

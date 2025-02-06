@@ -8,16 +8,20 @@
 #include <iostream>
 #include <array>
 #include "RayCaster.h"
+#include "unordered_set"
 
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
 
 Game::Game() {
 
-    player = Player({ 550,500 });
+   
     player.setLookDir(1);
     map = Map(" ");
-    rayCaster = RayCaster(map, player);
+    player = Player({ 550,500 }, map);
+    rayCaster = RayCaster(map,*player.getEntity());
+    this->light = RayCaster(map, *(new Entity{ Vector2{410,183 }, 101}));
+    
     frameCounter = 0;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
@@ -67,15 +71,22 @@ void Game::render() {
     DrawFPS(10, 10);
 
     if (0) {
-        DrawRectangle(position.x, position.y, 10, 10, BLUE);
+        DrawRectangle(light.getPosition().x, light.getPosition().y, 10, 10, BLUE);
 
         for (Line line : map.getMap()) {
             DrawLineEx(line.p1, line.p2, 3, line.color);
         }
-        std::array<Ray2d, RAYCOUNT> rays = rayCaster.castRays();
-        DrawLineEx(position, look, 2, YELLOW);
-        for (Ray2d ray : rays)
-            DrawLineEx(position, ray.point, 1, RED);
+       /*
+        std::unordered_set<Ray2d> rays = light.castRays();
+        DrawLineEx(light.getPosition(), Vector2Scale(getRayFromAngle(light.getRotation()*DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
+        for (const auto ray : rays)
+            DrawLineEx(light.getPosition(), ray.point, 1, RED);
+        */
+        std::unordered_set<Ray2d> rays = rayCaster.castRays();
+        DrawLineEx(light.getPosition(), Vector2Scale(getRayFromAngle(light.getRotation() * DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
+        for (const auto ray : rays)
+            DrawLineEx(rayCaster.getPosition(), ray.point, 1, RED);
+
     }
 
     look.x = position.x + look.x;
@@ -113,7 +124,8 @@ void Game::getInput() {
 }
 
 void Game::drawView() {
-    std::array<Ray2d, RAYCOUNT> rays = rayCaster.castRays();
+    std::unordered_set<Ray2d> rays = rayCaster.castRays();
+    float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
     float dist;
     int count = 0;
     int wallSize = 20;
@@ -122,7 +134,8 @@ void Game::drawView() {
     Vector2 vec2 = { 0,screenHeight / 2 - 150 };
     Vector2 rayVector = { 0,0 };
     Color colorVal;
-    for (Ray2d ray : rays) {
+
+   for (const auto ray : rays) {
        
         rayVector.x = abs(ray.point.x - player.getPosition().x);
         rayVector.y = abs(ray.point.y - player.getPosition().y);
@@ -136,20 +149,23 @@ void Game::drawView() {
         colorVal.r = ray.color.r;
         colorVal.g = ray.color.g;
         colorVal.b = ray.color.b;
-
+        if (IsKeyDown(KEY_F)) {
+            printf("debug");
+        }
+        vec1.x = ray.index;
+        vec2.x = ray.index;
         // We divide the screen width by the number of rays to allow us to draw any amount of rays
         // and still fill the screen properly.
-        for (int i = 0; i < ceil((float)screenWidth / (float)rays.size()); i++) {
-            vec1.x += 1;
-            vec2.x += 1;
-            if (ray.point.x == -1 && ray.point.y == -1)
-                continue;
-            intensity = (0.9 / dist) * 50;
-            colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
-            colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
-            colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r);
-            DrawLineEx(vec1, vec2, 1, colorVal);
-        }
+       
+        vec1.x = ray.index * lineWidth;
+        vec2.x = ray.index * lineWidth;
+
+        intensity = (0.9 / dist) * 50;
+        colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
+        colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
+        colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r); 
+        DrawLineEx(vec1, vec2, lineWidth , colorVal);
+        
     }
 }
 
