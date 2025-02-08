@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "raylib.h"
+#include "raymath.h"
 
 struct Line {
 	Vector2 p1;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "RayCaster.h"
 #include "Helpers.h"
+#include <algorithm>
 
 /**
  * Finds the intersection between two lines.
@@ -25,7 +26,7 @@ Vector2 findPointOfIntersection(Vector2 a, Vector2 b, Vector2 c, Vector2 d) {
 	float s = 
 		(((c.y - a.y) * (b.x - a.x)) - ((c.x - a.x) * (b.y - a.y)))
 		/ (((b.y - a.y) * (d.x - c.x)) - ((b.x - a.x) * (d.y - c.y)));
-	// Return if the point will not exist on both line segments.
+	// Return if the point does not exist on both line segments.
 	if (t < 0 || t > 1 || s < 0 || s > 1)
 		return poi;
 	poi.x = a.x + t * (b.x - a.x);
@@ -35,7 +36,7 @@ Vector2 findPointOfIntersection(Vector2 a, Vector2 b, Vector2 c, Vector2 d) {
 
 Vector2 getRayFromAngle(float theta) {
 	Vector2 vec;
-	vec.x = cos(theta) * RAYSIZE;
-	vec.y = sin(theta) * RAYSIZE;
+	vec.x = cos(theta);
+	vec.y = sin(theta);
 	return vec;
 }
