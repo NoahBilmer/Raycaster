@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Helpers.h"
 #include "RayCaster.h"
+#include "Entity.h"
 
 
 Player::Player() {
@@ -36,8 +37,8 @@ void Player::setLookDir(bool lookDir)
 		entity->rotation++;
 	}
 
-	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * FOV/2)));
-	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * entity->rotation + DEG2RAD * FOV/2) + (DEG2RAD * 90)));
+	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov/2)));
+	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * entity->rotation + DEG2RAD * fov/2) + (DEG2RAD * 90)));
 
 }
 

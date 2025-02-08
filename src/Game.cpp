@@ -1,26 +1,17 @@
 #include "Game.h"
-#include "raymath.h"
-#include "raylib.h"
-#include "Player.h"
-#include "Map.h"
-#include "stdio.h"
-#include "string.h"
-#include <iostream>
-#include <array>
-#include "RayCaster.h"
-#include "unordered_set"
 
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
-
+Entity lightpos;
+int val = 1;
 Game::Game() {
 
-   
+    lightpos = *(new Entity{ Vector2{410,183}, 101 });
     player.setLookDir(1);
     map = Map(" ");
     player = Player({ 550,500 }, map);
-    rayCaster = RayCaster(map,*player.getEntity());
-    this->light = RayCaster(map, *(new Entity{ Vector2{410,183 }, 101}));
+    rayCaster = RayCaster(map,*player.getEntity(),66,300);
+    this->light = RayCaster(map, lightpos, 100,200);
     
     frameCounter = 0;
 
@@ -69,19 +60,14 @@ void Game::render() {
     DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
     DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
     DrawFPS(10, 10);
-
+   
     if (0) {
-        DrawRectangle(light.getPosition().x, light.getPosition().y, 10, 10, BLUE);
+        
 
         for (Line line : map.getMap()) {
             DrawLineEx(line.p1, line.p2, 3, line.color);
         }
-       /*
-        std::unordered_set<Ray2d> rays = light.castRays();
-        DrawLineEx(light.getPosition(), Vector2Scale(getRayFromAngle(light.getRotation()*DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
-        for (const auto ray : rays)
-            DrawLineEx(light.getPosition(), ray.point, 1, RED);
-        */
+        
         std::unordered_set<Ray2d> rays = rayCaster.castRays();
         DrawLineEx(light.getPosition(), Vector2Scale(getRayFromAngle(light.getRotation() * DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
         for (const auto ray : rays)
@@ -125,6 +111,7 @@ void Game::getInput() {
 
 void Game::drawView() {
     std::unordered_set<Ray2d> rays = rayCaster.castRays();
+    std::unordered_set<Ray2d> lrays = light.castRays();
     float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
     float dist;
     int count = 0;
@@ -145,22 +132,22 @@ void Game::drawView() {
        
         vec1.y = ((screenHeight / 2) + (lineSize / 2));
         vec2.y = vec1.y - lineSize;
-        
+
         colorVal.r = ray.color.r;
         colorVal.g = ray.color.g;
         colorVal.b = ray.color.b;
         if (IsKeyDown(KEY_F)) {
-            printf("debug");
+            printf("debug\n");
         }
         vec1.x = ray.index;
         vec2.x = ray.index;
-        // We divide the screen width by the number of rays to allow us to draw any amount of rays
-        // and still fill the screen properly.
        
         vec1.x = ray.index * lineWidth;
         vec2.x = ray.index * lineWidth;
-
-        intensity = (0.9 / dist) * 50;
+    
+        intensity = 170 / (dist);
+        intensity = Normalize(intensity, 0, 1);
+       
         colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
         colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
         colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r); 

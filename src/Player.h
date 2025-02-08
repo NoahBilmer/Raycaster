@@ -4,6 +4,7 @@
 #include "Helpers.h"
 #include "RayCaster.h"
 #include <iostream>
+#include "Entity.h"
 
 
 class Player
@@ -29,6 +30,7 @@ private:
 	Map* map;
 	Vector2 rays[100];
 	float speed;
+	int fov = 66;
 };
 
 

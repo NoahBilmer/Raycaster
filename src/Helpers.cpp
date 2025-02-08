@@ -3,6 +3,7 @@
 #include <iostream>
 #include "RayCaster.h"
 #include "Helpers.h"
+#include <algorithm>
 
 /**
  * Finds the intersection between two lines.
@@ -38,12 +39,4 @@ Vector2 getRayFromAngle(float theta) {
 	vec.x = cos(theta);
 	vec.y = sin(theta);
 	return vec;
-}
-
-/* Checks if two vectors are within some delta value.*/
-float withinDelta(Vector2 p1, Vector2 p2, float delta)
-{
-	if (abs(p1.x - p2.x) < delta && abs(p1.y - p2.y) < delta)
-		return abs(p1.x - p2.x) + abs(p1.y - p2.y);
-	return 0;
 }

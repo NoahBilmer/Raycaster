@@ -2,6 +2,14 @@
 #include "Map.h"
 #include "Player.h"
 #include "Raycaster.h"
+#include "Entity.h"
+#include "raymath.h"
+#include "stdio.h"
+#include "string.h"
+#include <iostream>
+#include <array>
+#include "unordered_set"
+
 class Game
 {
 private:

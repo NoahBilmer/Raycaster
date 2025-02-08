@@ -8,7 +8,8 @@ struct Ray2d {
 	Vector2 point;
 	Color color;
 	int index;
-	Ray2d(Vector2 pointVal = { -1,-1 }, Color colorVal = BLUE, int i = -1) : point(pointVal), color(colorVal), index(i) {}
+	Line lineHit;
+	Ray2d(Vector2 pointVal = { -1,-1 }, Color colorVal = BLUE, int i = -1, Line l = Line{ Vector2{0,0},Vector2{0,0}, BLUE }) : point(pointVal), color(colorVal), index(i), lineHit(l) {}
 	bool operator==(const Ray2d& other) const {
 		return point.x == other.point.x && other.point.y == point.y; // Two points are equal if their points are equal, color is not relevant.
 	}

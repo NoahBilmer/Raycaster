@@ -13,12 +13,12 @@ RayCaster::RayCaster()
 	rayCount = 300;
 }
 
-RayCaster::RayCaster(Map& map, Entity& entity)
+RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount)
 {
 	this->map = &map;
 	this->entity = &entity;
-	fov = 66;
-	rayCount = 300;
+	this->fov = fov;
+	this->rayCount = rayCount;
 }
 
 RayCaster::~RayCaster()
@@ -31,7 +31,7 @@ RayCaster::~RayCaster()
 std::unordered_set<Ray2d> RayCaster::castRays()
 {
 	float theta = entity->rotation*DEG2RAD;
-	const long float deg = (0.0174533 * FOV) / rayCount;
+	const long float deg = (0.0174533 * fov) / rayCount;
 	theta = theta - deg;
 	std::unordered_set<Ray2d> rays;
 	for (int i = 0; i < rayCount; i++) {
@@ -53,7 +53,7 @@ const int RayCaster::getRayCount()
 
 Vector2 RayCaster::getLookRay()
 {
-	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * FOV / 2)));
+	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov / 2)));
 }
 
 Ray2d RayCaster::closestPoint(Vector2 ray) {
@@ -64,7 +64,7 @@ Ray2d RayCaster::closestPoint(Vector2 ray) {
 	Ray2d closestPoint = Ray2d({ -1,-1 }, BLUE);
 	// Loop through all the lines on the map and determine the closest line that intersects
 	// TODO: more efficient solution ?
-	for (const Line line : map->getMap()) {
+	for (Line line : map->getMap()) {
 		point = findPointOfIntersection(line.p1, line.p2, entity->position, lookVecAbs);
 		distance = Vector2Distance(entity->position, point);
 		if (point.x == -1 && point.y == -1) 
@@ -73,6 +73,7 @@ Ray2d RayCaster::closestPoint(Vector2 ray) {
 			closestDistance = distance;
 			closestPoint.point = point;
 			closestPoint.color = line.color;
+			closestPoint.lineHit = line;
 		}
 	}
 	return closestPoint;

@@ -9,13 +9,12 @@
 #include "memory.h"
 #include "unordered_set"
 #include "Ray2d.h"
-
-#define FOV 66
+#include "Entity.h"
 
 class RayCaster
 {
 private:
-	float fov;
+	float fov = 66;
 	int rayCount;
 	int rayLength = 1000;
 	Map *map;
@@ -23,7 +22,7 @@ private:
 public:
 	RayCaster();
 	~RayCaster();
-	RayCaster(Map& map, Entity& entity);
+	RayCaster(Map& map, Entity& entity, int fov, int rayCount);
 	std::unordered_set<Ray2d> castRays();
 	const int getRayCount();
 	Vector2 getLookRay();
