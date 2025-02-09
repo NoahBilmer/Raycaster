@@ -1,7 +1,6 @@
 #include "RayCaster.h"
 
 
-
 // TODO: fix the default constructor mess here 
 RayCaster::RayCaster()
 {
@@ -28,12 +27,12 @@ RayCaster::~RayCaster()
 
 // Cast out a ray from the player position to the nearest object.
 // and then return the point of intersection.
-std::unordered_set<Ray2d> RayCaster::castRays()
+void RayCaster::castRays()
 {
+	rays.clear();
 	float theta = entity->rotation*DEG2RAD;
 	const long float deg = (0.0174533 * fov) / rayCount;
 	theta = theta - deg;
-	std::unordered_set<Ray2d> rays;
 	for (int i = 0; i < rayCount; i++) {
 		theta += deg;
 		Ray2d ray = closestPoint(Vector2Scale(getRayFromAngle(theta), rayLength));
@@ -42,8 +41,10 @@ std::unordered_set<Ray2d> RayCaster::castRays()
 		ray.index = i;
 		rays.insert(ray);
 	}
+}
+
+std::unordered_set<Ray2d> RayCaster::getRays() {
 	return rays;
-	
 }
 
 const int RayCaster::getRayCount()

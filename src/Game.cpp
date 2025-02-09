@@ -2,16 +2,13 @@
 
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
-Entity lightpos;
-int val = 1;
+
 Game::Game() {
 
-    lightpos = *(new Entity{ Vector2{410,183}, 101 });
     player.setLookDir(1);
     map = Map(" ");
     player = Player({ 550,500 }, map);
     rayCaster = RayCaster(map,*player.getEntity(),66,300);
-    this->light = RayCaster(map, lightpos, 100,200);
     
     frameCounter = 0;
 
@@ -32,15 +29,19 @@ void Game::update() {
     // Start by getting input
     getInput();
     // update the position to match the desired movement every frame. 
-    player.updatePosition();
+    doLogic();
     // Render 
     render();
+}
+
+void Game::doLogic() {
+    player.updatePosition();
+    rayCaster.castRays();
 }
 
 void Game::render() {
     float scale = MIN((float)GetScreenWidth() / screenWidth, (float)GetScreenHeight() / screenHeight);
     Vector2 position = player.getPosition();
-    Vector2 look = player.getLookVec();
     BeginTextureMode(target);
 
     ClearBackground(RAYWHITE);
@@ -52,9 +53,10 @@ void Game::render() {
     Color lightBlue = Color{ 64, 96, 145,255 };
     Color darkBlue = Color{ 12, 24, 41,255 };
 
+    // Create the background 
     DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
     DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
-
+    // Draw the view.
     drawView();
 
     DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
@@ -63,22 +65,18 @@ void Game::render() {
    
     if (0) {
         
-
         for (Line line : map.getMap()) {
             DrawLineEx(line.p1, line.p2, 3, line.color);
         }
         
-        std::unordered_set<Ray2d> rays = rayCaster.castRays();
-        DrawLineEx(light.getPosition(), Vector2Scale(getRayFromAngle(light.getRotation() * DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
+        rayCaster.castRays();
+        std::unordered_set<Ray2d> rays = rayCaster.getRays();
+        DrawLineEx(rayCaster.getPosition(), Vector2Scale(getRayFromAngle(rayCaster.getRotation() * DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
         for (const auto ray : rays)
             DrawLineEx(rayCaster.getPosition(), ray.point, 1, RED);
 
     }
-
-    look.x = position.x + look.x;
-    look.y = position.y + look.y;
   
-
     EndTextureMode();
     BeginDrawing();
     DrawTexturePro(target.texture, Rectangle{ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
@@ -110,8 +108,7 @@ void Game::getInput() {
 }
 
 void Game::drawView() {
-    std::unordered_set<Ray2d> rays = rayCaster.castRays();
-    std::unordered_set<Ray2d> lrays = light.castRays();
+    std::unordered_set<Ray2d> rays = rayCaster.getRays();
     float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
     float dist;
     int count = 0;
@@ -144,7 +141,7 @@ void Game::drawView() {
        
         vec1.x = ray.index * lineWidth;
         vec2.x = ray.index * lineWidth;
-    
+        
         intensity = 170 / (dist);
         intensity = Normalize(intensity, 0, 1);
        
