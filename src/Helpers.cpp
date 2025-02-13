@@ -1,14 +1,10 @@
-#include <raylib.h>
-#include <raymath.h>
-#include <iostream>
-#include "RayCaster.h"
 #include "Helpers.h"
-#include <algorithm>
+
 
 /**
  * Finds the intersection between two lines.
  *
- * @params p1 p2 define the first line and p2 p3 define the second line.
+ * @params p1, p2 define the first line and p2, p3 define the second line.
  *
  * @return If it exists, the point of intersection between the two lines,
  *		   If it does not exist, a Vector of x,y values of -1.
@@ -34,6 +30,15 @@ Vector2 findPointOfIntersection(Vector2 a, Vector2 b, Vector2 c, Vector2 d) {
 	return poi;
 }
 
+
+/**
+ * Coverts an angle into it's corresponding unit vector.
+ *
+ * @params theta - the angle in radians 
+ *
+ * @return the unit vector
+ * 
+ */
 Vector2 getRayFromAngle(float theta) {
 	Vector2 vec;
 	vec.x = cos(theta);

@@ -1,18 +1,16 @@
 #include "Map.h"
 
+/**
+ * Constructor for the Map class.
+ */
 Map::Map() {
-	Map(""); // todo: implement saving/loading maps
+
 }
 
-Map::Map(std::string mapDirectory)
-{
-	map = {};
+void Map::serializeMap(char* name) {
+	// TODO
 }
 
-std::vector<std::string> Map::getMapList()
-{
-	return std::vector<std::string>();
-}
 
 void Map::loadMap(std::string mapName)
 {
@@ -45,7 +43,7 @@ void Map::createRect(Rectangle rect, Color color) {
 	
 }
 
-std::vector<Line> Map::getMap()
+std::vector<Line> Map::getLineVector()
 {
 	return map;
 }

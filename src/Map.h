@@ -26,12 +26,12 @@ private:
 public:
 	Map();
 	Map(std::string mapDirectory);
-
+	void serializeMap(char* name);
 	std::vector<std::string> getMapList();
 
 	void loadMap(std::string mapName);
 
-	std::vector<Line> getMap();
+	std::vector<Line> getLineVector();
 
 	void createRect(Rectangle rect, Color color);
 

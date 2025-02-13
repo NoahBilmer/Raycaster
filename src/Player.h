@@ -5,7 +5,8 @@
 #include "RayCaster.h"
 #include <iostream>
 #include "Entity.h"
-
+#include "raymath.h"
+#include <vector>
 
 class Player
 {
@@ -15,7 +16,7 @@ public:
 	void UpdateStateVecs(Vector2 moveVec, Vector2 lookVec);
 	Vector2 getMoveVec();
 	void setMoveVec(Vector2 newVec);
-	void setLookDir(bool lookDir);
+	void updateRotation(int newDir);
 	Vector2 getLookVec();
 	Vector2 getPosition();
 	float getRotation();
@@ -28,7 +29,6 @@ private:
 	Vector2 horizontalVec; // the vector perpendicular to the look direction. 
 	Entity* entity;
 	Map* map;
-	Vector2 rays[100];
 	float speed;
 	int fov = 66;
 };

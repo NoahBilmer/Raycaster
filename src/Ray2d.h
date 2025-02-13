@@ -1,7 +1,6 @@
 #pragma once
 #include "raymath.h"
 #include "raylib.h"
-
 #include <functional> 
 
 struct Ray2d {
