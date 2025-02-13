@@ -1,5 +1,5 @@
-#include "RayCaster.h"
-#include "Game.h"
+#include "include/RayCaster.h"
+#include "include/Game.h"
 
 /* Default constructor
 */

@@ -2,15 +2,15 @@
 * Raycaster by Noah Bilmer
 ********************************************************************************************/
 
-#include "input.h"
+#include "include/input.h"
 #include "raymath.h"
 #include "raylib.h"
-#include "Player.h"
-#include "Map.h"
+#include "include/Player.h"
+#include "include/Map.h"
 #include "stdio.h"
 #include "string.h"
 #include <iostream>
-#include "Game.h"
+#include "include/Game.h"
 
 //#define PLATFORM_WEB 1
 

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <array>
 #include "unordered_set"
+#include "PauseScreen.h"
 
 class Game
 {
@@ -21,7 +22,10 @@ public:
 private:
 	static Map* map;
 	RenderTexture2D target;
+	PauseScreen pauseScreen;
+	Color targetColor = Color{ 255,255,255,255 };
 	Player player;
+	bool isPaused = false;
 	RayCaster rayCaster;
 	const int screenWidth = 1200;
 	const int screenHeight = 1000;
