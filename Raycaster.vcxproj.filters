@@ -14,35 +14,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="src\include\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="src\include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="src\include\Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers.h">
+    <ClInclude Include="src\include\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RayCaster.h">
+    <ClInclude Include="src\include\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\include\PauseScreen.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helpers.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\include\Player.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Map.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\include\Ray2d.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Player.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RayCaster.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\include\RayCaster.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +62,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RayCaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PauseScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

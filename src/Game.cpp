@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "include/Game.h"
 
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
@@ -15,17 +15,18 @@ Game::Game() {
     map->loadMap("map");
     player = Player({ 550,500 }, *map);
     rayCaster = RayCaster(*map, *player.getEntity(), 66, 300);
+    pauseScreen = PauseScreen();
     
     frameCounter = 0;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, "Raycaster");
     SetWindowSize(screenWidth, screenHeight);
+    SetExitKey(KEY_NULL);
 
     target = LoadRenderTexture(screenWidth, screenHeight);
     SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
 
-   
     SetTargetFPS(60);
 }
 
@@ -40,6 +41,11 @@ void Game::update() {
     doLogic();
     // Render 
     render();
+    // draw the pause screen
+    if (isPaused) {
+        pauseScreen.getInput();
+        pauseScreen.draw();
+    }
 }
 
 Map* Game::getMap()
@@ -97,11 +103,17 @@ void Game::render() {
 
         }
     EndTextureMode();
-        BeginDrawing();
+        BeginDrawing(); 
+        if (isPaused) {
+            targetColor = Color{255,255,255,75};
+        }
+        else {
+            targetColor = Color{ 255,255,255,255 };
+        }
         DrawTexturePro(target.texture, Rectangle{ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
                  Rectangle{ (GetScreenWidth() - ((float)screenWidth * scale))*0.5f, (GetScreenHeight() - ((float)screenHeight * scale))*0.5f,
                  (float)screenWidth * scale, (float)screenHeight * scale },
-                 Vector2{ 0, 0 }, 0.0f, Color{255,255,255,255});
+                 Vector2{ 0, 0 }, 0.0f, targetColor);
  
         ClearBackground(BLACK);
     EndDrawing();
@@ -113,6 +125,7 @@ void Game::render() {
  */
 void Game::getInput() {
     Vector2 vec = { 0 , 0 };
+    int dir = 0;
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
         vec.y++;
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
@@ -121,12 +134,18 @@ void Game::getInput() {
         vec.x--;
     if (IsKeyDown(KEY_D))
         vec.x++;
-    player.setMoveVec(vec);
     if (IsKeyDown(KEY_LEFT)) {
-        player.updateRotation(player.getRotation() - 1);
+        dir = -1;
     }
     if (IsKeyDown(KEY_RIGHT)) {
-        player.updateRotation(player.getRotation() + 1);
+        dir = 1;
+    }
+    if (!isPaused) {
+        player.setMoveVec(vec);
+        player.updateRotation(player.getRotation() + dir);
+    }
+    if (IsKeyPressed(KEY_ESCAPE)) {
+        isPaused = !isPaused;
     }
 }
 

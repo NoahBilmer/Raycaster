@@ -127,16 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Helpers.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="RayCaster.h" />
-    <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\Helpers.h" />
-    <ClInclude Include="src\Map.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\RayCaster.h" />
+    <ClInclude Include="src\include\Entity.h" />
+    <ClInclude Include="src\include\Game.h" />
+    <ClInclude Include="src\include\Helpers.h" />
+    <ClInclude Include="src\include\Input.h" />
+    <ClInclude Include="src\include\Map.h" />
+    <ClInclude Include="src\include\PauseScreen.h" />
+    <ClInclude Include="src\include\Player.h" />
+    <ClInclude Include="src\include\Ray2d.h" />
+    <ClInclude Include="src\include\RayCaster.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -146,6 +145,7 @@
     <ClCompile Include="src\Helpers.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\PauseScreen.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\RayCaster.cpp" />
   </ItemGroup>
