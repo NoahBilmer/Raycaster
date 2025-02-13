@@ -1,4 +1,5 @@
 #pragma once
+
 #include "raylib.h"
 #include "raymath.h"
 #include <vector>
@@ -10,6 +11,9 @@
 #include "unordered_set"
 #include "Ray2d.h"
 #include "Entity.h"
+#include <stdexcept>
+
+
 
 class RayCaster
 {

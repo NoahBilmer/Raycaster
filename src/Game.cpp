@@ -3,14 +3,18 @@
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
 
+Map* Game::map;
+
 /**
  * Constructor for the Game class.
  */
 Game::Game() {
 
-    map = Map();
-    player = Player({ 550,500 }, map);
-    rayCaster = RayCaster(map,*player.getEntity(),66,300);
+    if (map == nullptr)
+        map = new Map();
+    map->loadMap("map");
+    player = Player({ 550,500 }, *map);
+    rayCaster = RayCaster(*map, *player.getEntity(), 66, 300);
     
     frameCounter = 0;
 
@@ -21,7 +25,7 @@ Game::Game() {
     target = LoadRenderTexture(screenWidth, screenHeight);
     SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
 
-    map.loadMap("map");
+   
     SetTargetFPS(60);
 }
 
@@ -36,6 +40,13 @@ void Game::update() {
     doLogic();
     // Render 
     render();
+}
+
+Map* Game::getMap()
+{
+    if (map == nullptr)
+        map = new Map();
+    return map;
 }
 
 
@@ -74,7 +85,7 @@ void Game::render() {
    
         if (0) {
         
-            for (Line line : map.getMap()) {
+            for (Line line : map->getLineVector()) {
                 DrawLineEx(line.p1, line.p2, 3, line.color);
             }
         
@@ -175,6 +186,7 @@ void Game::drawView() {
  * Deconstructor for the Game class.
  */
 Game::~Game() {
+    delete map;
     UnloadRenderTexture(target);        
     CloseWindow();
 }

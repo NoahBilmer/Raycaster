@@ -31,7 +31,7 @@ public:
 
 	void loadMap(std::string mapName);
 
-	std::vector<Line> getMap();
+	std::vector<Line> getLineVector();
 
 	void createRect(Rectangle rect, Color color);
 

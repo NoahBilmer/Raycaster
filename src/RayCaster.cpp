@@ -1,17 +1,22 @@
 #include "RayCaster.h"
+#include "Game.h"
 
-
-// TODO: fix the default constructor mess here 
+/* Default constructor
+*/
 RayCaster::RayCaster()
 {
-	if (map == nullptr)
-		this->map = new Map(); 
-	if (entity == nullptr)
-		this->entity = new Entity{ Vector2{500,500},90 };
+	this->map = Game::getMap();
+	this->entity = new Entity{ Vector2{500,500},90 };
 	fov = 66;
 	rayCount = 300;
 }
 
+/* Custom constructor for the RayCaster
+ * @params map      - the map to use (Not this classes responsibility to free())
+ *         entity   - the entity to use 
+ *		   fov      - the fov of the raycaster
+ *		   rayCount - the number of rays to cast
+ */
 RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount)
 {
 	this->map = &map;
@@ -64,6 +69,16 @@ Vector2 RayCaster::getLookRay()
 	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov / 2)));
 }
 
+
+/**
+ * Finds the closest point on the map between the raycaster's position
+ * and the input ray's position.
+ *
+ * @params ray - the input ray
+ *
+ * @return the Ray2d object storing all the relevant data about this ray.
+ *
+ */
 Ray2d RayCaster::closestPoint(Vector2 ray) {
 	Vector2 lookVecAbs = { (entity->position.x + ray.x), (entity->position.y + ray.y)};
 	Vector2 point;
@@ -72,7 +87,7 @@ Ray2d RayCaster::closestPoint(Vector2 ray) {
 	Ray2d closestPoint = Ray2d({ -1,-1 }, BLUE);
 	// Loop through all the lines on the map and determine the closest line that intersects
 	// TODO: more efficient solution ?
-	for (Line line : map->getMap()) {
+	for (Line line : map->getLineVector()) {
 		point = findPointOfIntersection(line.p1, line.p2, entity->position, lookVecAbs);
 		distance = Vector2Distance(entity->position, point);
 		if (point.x == -1 && point.y == -1) 

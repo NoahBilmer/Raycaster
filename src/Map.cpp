@@ -43,7 +43,7 @@ void Map::createRect(Rectangle rect, Color color) {
 	
 }
 
-std::vector<Line> Map::getMap()
+std::vector<Line> Map::getLineVector()
 {
 	return map;
 }

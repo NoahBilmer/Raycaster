@@ -5,7 +5,8 @@
 #include "RayCaster.h"
 #include <iostream>
 #include "Entity.h"
-
+#include "raymath.h"
+#include <vector>
 
 class Player
 {

@@ -1,9 +1,5 @@
-#include <raylib.h>
-#include <raymath.h>
-#include <iostream>
-#include "RayCaster.h"
 #include "Helpers.h"
-#include <algorithm>
+
 
 /**
  * Finds the intersection between two lines.

@@ -1,11 +1,4 @@
 #include "Player.h"
-#include "raymath.h"
-#include "raylib.h"
-#include <vector>
-#include "Map.h"
-#include "Helpers.h"
-#include "RayCaster.h"
-#include "Entity.h"
 
 /**
  * Default constructor for the Player class.
@@ -23,7 +16,7 @@ Player::Player() {
 
 
 /**
- * Custom constructor 
+ * Custom constructor for Player
  */
 Player::Player(Vector2 startPos, Map& map) : Player() { 
 	this->map = &map;
