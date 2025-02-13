@@ -25,8 +25,9 @@ RayCaster::~RayCaster()
 	
 }
 
-// Cast out a ray from the player position to the nearest object.
-// and then return the point of intersection.
+/* Cast out a ray from the player position to the nearest object.
+ * and then return the point of intersection.
+ */ 
 void RayCaster::castRays()
 {
 	rays.clear();
@@ -43,15 +44,21 @@ void RayCaster::castRays()
 	}
 }
 
+/* Returns the unordered set of rays
+ */
 std::unordered_set<Ray2d> RayCaster::getRays() {
 	return rays;
 }
 
+/* Returns the ray count.
+ */
 const int RayCaster::getRayCount()
 {
 	return rayCount;
 }
 
+/* Returns the unordered set of rays
+ */
 Vector2 RayCaster::getLookRay()
 {
 	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov / 2)));
@@ -80,16 +87,25 @@ Ray2d RayCaster::closestPoint(Vector2 ray) {
 	return closestPoint;
 }
 
+/*
+ * Returns the raycaster's position
+ */
 Vector2 RayCaster::getPosition()
 {
 	return entity->position;
 }
 
+/*
+ * Returns the raycaster's rotation
+ */
 float RayCaster::getRotation()
 {
 	return entity->rotation;
 }
 
+/*
+ * Returns the ray length.
+ */
 int RayCaster::getRayLength()
 {
 	return rayLength;

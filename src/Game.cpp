@@ -3,10 +3,12 @@
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
 
+/**
+ * Constructor for the Game class.
+ */
 Game::Game() {
 
-    player.setLookDir(1);
-    map = Map(" ");
+    map = Map();
     player = Player({ 550,500 }, map);
     rayCaster = RayCaster(map,*player.getEntity(),66,300);
     
@@ -23,21 +25,32 @@ Game::Game() {
     SetTargetFPS(60);
 }
 
+/**
+ * The update function for the application. Runs once per tick.
+ */
 void Game::update() {
     frameCounter++;
     // Start by getting input
     getInput();
-    // update the position to match the desired movement every frame. 
+    // Calculate all of the game logic
     doLogic();
     // Render 
     render();
 }
 
+
+/**
+ * Does all of the game logic for this frame.
+ */
 void Game::doLogic() {
     player.updatePosition();
     rayCaster.castRays();
 }
 
+
+/**
+ * Renders the game state.
+ */
 void Game::render() {
     float scale = MIN((float)GetScreenWidth() / screenWidth, (float)GetScreenHeight() / screenHeight);
     Vector2 position = player.getPosition();
@@ -83,6 +96,10 @@ void Game::render() {
     EndDrawing();
 }
 
+
+/**
+ * Gathers input for this frame.
+ */
 void Game::getInput() {
     Vector2 vec = { 0 , 0 };
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
@@ -95,13 +112,17 @@ void Game::getInput() {
         vec.x++;
     player.setMoveVec(vec);
     if (IsKeyDown(KEY_LEFT)) {
-        player.setLookDir(1);
+        player.updateRotation(player.getRotation() - 1);
     }
     if (IsKeyDown(KEY_RIGHT)) {
-        player.setLookDir(0);
+        player.updateRotation(player.getRotation() + 1);
     }
 }
 
+
+/**
+ * Draw the representation of the game world.
+ */
 void Game::drawView() {
     std::unordered_set<Ray2d> rays = rayCaster.getRays();
     float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
@@ -149,6 +170,10 @@ void Game::drawView() {
     }
 }
 
+
+/**
+ * Deconstructor for the Game class.
+ */
 Game::~Game() {
     UnloadRenderTexture(target);        
     CloseWindow();
