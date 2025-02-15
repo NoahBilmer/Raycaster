@@ -21,6 +21,7 @@ public:
 	Vector2 getPosition();
 	float getRotation();
 	void updatePosition();
+	Vector2 getNextPosition();
 	Entity* getEntity();
 
 private: 

@@ -50,8 +50,16 @@ Map* Game::getMap()
  * Does all of the game logic for this frame.
  */
 void Game::doLogic() {
-    player.updatePosition();
     rayCaster.castRays();
+    for (auto line : map->getLineVector()) {
+        Vector2 res = findPointOfIntersection(player.getPosition(),player.getNextPosition(), line.p1, line.p2);
+        if (res.x != -1 && res.y != -1) {
+            return;
+        }
+    }
+    
+    player.updatePosition();
+   
 }
 
 

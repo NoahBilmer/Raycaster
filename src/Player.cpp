@@ -70,11 +70,16 @@ float Player::getRotation()
  */
 void Player::updatePosition()
 {
-	
-	entity->position.y += moveVec.x * horizontalVec.y * speed;
-	entity->position.x += moveVec.x * horizontalVec.x * speed;
-	entity->position.y += moveVec.y * lookVec.y * speed;
-	entity->position.x += moveVec.y * lookVec.x * speed;
+	entity->position = getNextPosition();
+}
+
+Vector2 Player::getNextPosition() {
+	Vector2 nextPos = entity->position;
+	nextPos.y += moveVec.x * horizontalVec.y * speed;
+	nextPos.x += moveVec.x * horizontalVec.x * speed;
+	nextPos.y += moveVec.y * lookVec.y * speed;
+	nextPos.x += moveVec.y * lookVec.x * speed;
+	return nextPos;
 }
 
 /*
