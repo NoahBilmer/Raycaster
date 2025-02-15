@@ -136,6 +136,9 @@
     <ClInclude Include="src\include\Player.h" />
     <ClInclude Include="src\include\Ray2d.h" />
     <ClInclude Include="src\include\RayCaster.h" />
+    <ClInclude Include="src\resources\romulus.h" />
+    <ClInclude Include="src\ui\include\Button.h" />
+    <ClInclude Include="src\ui\include\Slider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -148,6 +151,8 @@
     <ClCompile Include="src\PauseScreen.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\RayCaster.cpp" />
+    <ClCompile Include="src\ui\Button.cpp" />
+    <ClCompile Include="src\ui\Slider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

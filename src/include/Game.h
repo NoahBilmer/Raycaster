@@ -19,6 +19,10 @@ public:
 	~Game();
 	void update(void);
 	static Map* getMap();
+	static const int screenWidth = 1200;
+	static const int screenHeight = 1000;
+	static Font defaultFont;
+	static float scale;
 private:
 	static Map* map;
 	RenderTexture2D target;
@@ -27,8 +31,7 @@ private:
 	Player player;
 	bool isPaused = false;
 	RayCaster rayCaster;
-	const int screenWidth = 1200;
-	const int screenHeight = 1000;
+
 	int frameCounter;
 	void drawView();
 	void doLogic(void);
