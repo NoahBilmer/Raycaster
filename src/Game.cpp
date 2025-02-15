@@ -1,15 +1,18 @@
 #include "include/Game.h"
-
-#define MAX(a, b) ((a)>(b)? (a) : (b))
-#define MIN(a, b) ((a)<(b)? (a) : (b))
+#include "resources/romulus.h"
 
 Map* Game::map;
+Font Game::defaultFont;
+float Game::scale;
 
 /**
  * Constructor for the Game class.
  */
 Game::Game() {
-
+    target = LoadRenderTexture(screenWidth, screenHeight);
+    SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+    defaultFont = LoadFont_Romulus();
+    SetTargetFPS(60);
     if (map == nullptr)
         map = new Map();
     map->loadMap("map");
@@ -18,16 +21,6 @@ Game::Game() {
     pauseScreen = PauseScreen();
     
     frameCounter = 0;
-
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-    InitWindow(screenWidth, screenHeight, "Raycaster");
-    SetWindowSize(screenWidth, screenHeight);
-    SetExitKey(KEY_NULL);
-
-    target = LoadRenderTexture(screenWidth, screenHeight);
-    SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
-
-    SetTargetFPS(60);
 }
 
 /**
@@ -35,26 +28,23 @@ Game::Game() {
  */
 void Game::update() {
     frameCounter++;
-    // Start by getting input
     getInput();
-    // Calculate all of the game logic
-    doLogic();
-    // Render 
-    render();
-    // draw the pause screen
     if (isPaused) {
-        pauseScreen.getInput();
-        pauseScreen.draw();
+        pauseScreen.doLogic();
     }
+    else {
+        doLogic();
+    }
+    render();
 }
 
+/*
+ * Returns the map 
+ */
 Map* Game::getMap()
 {
-    if (map == nullptr)
-        map = new Map();
     return map;
 }
-
 
 /**
  * Does all of the game logic for this frame.
@@ -69,7 +59,7 @@ void Game::doLogic() {
  * Renders the game state.
  */
 void Game::render() {
-    float scale = MIN((float)GetScreenWidth() / screenWidth, (float)GetScreenHeight() / screenHeight);
+    scale = MIN((float)GetScreenWidth() / screenWidth, (float)GetScreenHeight() / screenHeight);
     Vector2 position = player.getPosition();
     Color lightBlue = Color{ 64, 96, 145,255 };
     Color darkBlue = Color{ 12, 24, 41,255 };
@@ -82,39 +72,34 @@ void Game::render() {
         // Create the background 
         DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
         DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
-        // Draw the view.
+
         drawView();
 
         DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
         DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
         DrawFPS(10, 10);
    
-        if (0) {
-        
-            for (Line line : map->getLineVector()) {
-                DrawLineEx(line.p1, line.p2, 3, line.color);
-            }
-        
-            rayCaster.castRays();
-            std::unordered_set<Ray2d> rays = rayCaster.getRays();
-            DrawLineEx(rayCaster.getPosition(), Vector2Scale(getRayFromAngle(rayCaster.getRotation() * DEG2RAD), rayCaster.getRayLength()), 2, YELLOW);
-            for (auto const ray : rays)
-                DrawLineEx(rayCaster.getPosition(), ray.point, 1, RED);
-
-        }
-    EndTextureMode();
-        BeginDrawing(); 
+        EndTextureMode();
+        RenderTexture2D pauseTarget = pauseScreen.getPauseTarget();
         if (isPaused) {
-            targetColor = Color{255,255,255,75};
+            pauseScreen.draw();
         }
         else {
             targetColor = Color{ 255,255,255,255 };
+        }
+        BeginDrawing();
+        if (isPaused) {
+            // Draw the pause screen first so the ui elements are partially transparent
+            targetColor = Color{ 255,255,255,75 };
+            DrawTexturePro(pauseTarget.texture, Rectangle{ 0.0f, 0.0f, (float)pauseTarget.texture.width, (float)-pauseTarget.texture.height },
+                Rectangle{ (GetScreenWidth() - ((float)screenWidth * scale)) * 0.5f, (GetScreenHeight() - ((float)screenHeight * scale)) * 0.5f,
+                (float)screenWidth * scale, (float)screenHeight * scale },
+                Vector2{ 0, 0 }, 0.0f, Color{ 255,255,255,150 });
         }
         DrawTexturePro(target.texture, Rectangle{ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
                  Rectangle{ (GetScreenWidth() - ((float)screenWidth * scale))*0.5f, (GetScreenHeight() - ((float)screenHeight * scale))*0.5f,
                  (float)screenWidth * scale, (float)screenHeight * scale },
                  Vector2{ 0, 0 }, 0.0f, targetColor);
- 
         ClearBackground(BLACK);
     EndDrawing();
 }
