@@ -18,7 +18,7 @@ Game::Game() {
     map->loadMap("map");
     player = Player({ 550,500 }, *map);
     rayCaster = RayCaster(*map, *player.getEntity(), 66, 300);
-    pauseScreen = PauseScreen();
+    Screen::setupScreenArray();
     
     frameCounter = 0;
 }
@@ -30,7 +30,7 @@ void Game::update() {
     frameCounter++;
     getInput();
     if (isPaused) {
-        pauseScreen.doLogic();
+        Screen::getScreen(0).get()->update();
     }
     else {
         doLogic();
@@ -88,9 +88,9 @@ void Game::render() {
         DrawFPS(10, 10);
    
         EndTextureMode();
-        RenderTexture2D pauseTarget = pauseScreen.getPauseTarget();
+        RenderTexture2D pauseTarget = dynamic_cast<PauseScreen*>(Screen::getScreen(0).get())->getPauseTarget();
         if (isPaused) {
-            pauseScreen.draw();
+            targetColor = Color{ 255,255,255,100 };
         }
         else {
             targetColor = Color{ 255,255,255,255 };

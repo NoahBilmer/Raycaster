@@ -17,6 +17,13 @@ PauseScreen::PauseScreen()
     exitBtn.setOnClick(exitButtonCallback);
 }
 
+int PauseScreen::update()
+{
+    draw();
+    exitBtn.updateState();
+    return this->getIndex();
+}
+
 /*
  * The draw function for the pause screen. . 
  */
@@ -27,14 +34,6 @@ void PauseScreen::draw()
     //DrawEllipse(Game::screenWidth / 2, Game::screenHeight / 2, 50, 50, BLUE);
     exitBtn.draw();
     EndTextureMode();
-}
-
-/*
- * the "logic" function for the pause screen. 
- */
-void PauseScreen::doLogic()
-{
-    exitBtn.updateState();
 }
 
 /*

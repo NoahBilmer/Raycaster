@@ -26,7 +26,6 @@ public:
 private:
 	static Map* map;
 	RenderTexture2D target;
-	PauseScreen pauseScreen;
 	Color targetColor = Color{ 255,255,255,255 };
 	Player player;
 	bool isPaused = false;

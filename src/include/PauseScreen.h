@@ -1,12 +1,15 @@
 #pragma once
 #include "raylib.h"
 #include "../ui/include/button.h"
+#include "Screen.h"
 
-class PauseScreen
+
+class PauseScreen : public Screen
 {
 public:
 
 	PauseScreen();
+	int update() override;
 	void draw();
 	void doLogic();
 	RenderTexture2D getPauseTarget();
