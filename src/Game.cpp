@@ -10,21 +10,11 @@ float Screen::scale;
  */
 Game::Game() {
 
-    // Setup the window and config flags
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-    InitWindow(Screen::screenWidth, Screen::screenHeight, "Raycaster");
-    SetWindowSize(Screen::screenWidth, Screen::screenHeight);
-    
-    SetExitKey(KEY_NULL);
-  
-    SetTextureFilter(Screen::mainLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
-    defaultFont = LoadFont_Romulus();
-    SetTargetFPS(60);
     if (map == nullptr)
         map = new Map();
     map->loadMap("map");
     player = Player({ 550,500 }, *map);
-    rayCaster = RayCaster(*map, *player.getEntity(), 66, 300);
+    rayCaster = RayCaster(*map, *player.getEntity(), 66, 500);
     
     frameCounter = 0;
 }
@@ -34,7 +24,9 @@ Game::Game() {
  */
 std::shared_ptr<Screen> Game::update(Input& input) {
     if (input.isPaused()) {
-        return Screen::getInstanceOf<PauseScreen>();
+        std::shared_ptr<Screen> screen = Screen::getInstanceOf<PauseScreen>();
+        screen.get()->mainLayer = mainLayer;
+        return screen;
     }
     frameCounter++;
     player.setMoveVec(input.getMoveVec());
@@ -79,18 +71,13 @@ void Game::render() {
     Color darkBlue = Color{ 12, 24, 41,255 };
     BeginTextureMode(Screen::mainLayer);
         ClearBackground(RAYWHITE);
-        char positionStr[50];
-        std::snprintf(positionStr, 50, "Position: (%f,%f)", position.x, position.y);
-        char lookStr[50];
-        std::snprintf(lookStr, 50, "wasd to move the player, arrow keys to move the camera ");
+        
         // Create the background 
         DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
         DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
 
         drawView();
 
-        DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
-        DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
         DrawFPS(10, 10);
     EndTextureMode();
 }

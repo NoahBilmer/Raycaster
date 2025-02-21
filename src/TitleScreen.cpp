@@ -14,7 +14,7 @@ TitleScreen::TitleScreen()
     titleLength = MeasureTextEx(Game::defaultFont, title.c_str(), fontSize, 2);
     infoLength = MeasureTextEx(Game::defaultFont, info.c_str(), fontSize, 2);
     githubLength = MeasureTextEx(Game::defaultFont, githubLink.c_str(), smallFontSize, 2);
-    startBtn = Button(Rectangle{Screen::screenWidth / 2 - 200,Screen::screenHeight - titleLength.y*2 - githubLength.y*2 - smallFontSize,400,100}, .2, Color{ 220,220,240,255 }, txt);
+    startBtn = Button(Rectangle{Screen::screenWidth / 2 - 200,Screen::screenHeight - titleLength.y*2 - githubLength.y*2 - smallFontSize,400,100}, .2, Color{ 190,190,240,255 }, txt);
     frameCount = 0;
 }
 
