@@ -15,7 +15,6 @@ public:
 	TitleScreen();
 	std::shared_ptr<Screen> update(Input& input) override;
 	void draw();
-	void transitionBackgroundHue();
 
 private:
 	int fontSize;

@@ -25,6 +25,8 @@ Game::Game() {
 std::shared_ptr<Screen> Game::update(Input& input) {
     if (input.isPaused()) {
         std::shared_ptr<Screen> screen = Screen::getInstanceOf<PauseScreen>();
+        /* the main/secondary layer is not static or anything, so we need to set the main layer
+           of the pause screen to be the game's main layer.*/
         screen.get()->mainLayer = mainLayer;
         return screen;
     }

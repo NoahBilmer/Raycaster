@@ -1,4 +1,5 @@
 #include "include/TitleScreen.h"
+#include "include/Helpers.h"
 
 /*
  * Constructor for the title screen
@@ -43,7 +44,7 @@ std::shared_ptr<Screen> TitleScreen::update(Input& input)
 void TitleScreen::draw()
 {
 	BeginTextureMode(Screen::mainLayer);
-        transitionBackgroundHue();
+        transitionBackgroundHue(&backgroundColor,&colorFadeDir);
         startBtn.draw();
         ClearBackground(backgroundColor);
         Color txtColor = backgroundColor;
@@ -58,32 +59,3 @@ void TitleScreen::draw()
 	EndTextureMode();
 }
 
-/**
-* transitions the background hue to a slightly different color every frame.
-* We use this in the title screen to create an interesting background color effect.
-*/
-void TitleScreen::transitionBackgroundHue() {
-    int MAX_RED = 190;
-    int MAX_GREEN = 200;
-    int MAX_BLUE = 220;
-    int MIN_RED = 87;
-    int MIN_GREEN = 103;
-    int MIN_BLUE = 178;
-
-    if (backgroundColor.r == MAX_RED && backgroundColor.g == MAX_GREEN && backgroundColor.b == MAX_BLUE) {
-        colorFadeDir = -1;
-    }
-    else if (backgroundColor.r == MIN_RED && backgroundColor.g == MIN_GREEN && backgroundColor.b == MIN_BLUE) {
-        colorFadeDir = 1;
-    }
-    
-    backgroundColor.r += colorFadeDir;
-    backgroundColor.g += colorFadeDir;
-    backgroundColor.b += colorFadeDir;
-    
-    // Clamp our color values to ensure they stay between our desired range.
-    backgroundColor.r = Clamp(backgroundColor.r, MIN_RED, MAX_RED);
-    backgroundColor.g = Clamp(backgroundColor.g, MIN_GREEN, MAX_GREEN);
-    backgroundColor.b = Clamp(backgroundColor.b, MIN_BLUE, MAX_BLUE);
-
-}
