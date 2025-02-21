@@ -10,16 +10,16 @@ Button::Button(Rectangle rect, float radius, Color color, std::string title) {
 	this->radius = radius;
 	this->color = color;
 	this->title = title;
-	onClick = nullptr;
+	this->btnState = false;
 }
 
 void Button::updateState() {
 	Vector2 mouse = GetMousePosition();
 	Vector2 virtualMouse = { 0 };
-	virtualMouse.x = (mouse.x - (GetScreenWidth() - (Game::screenWidth * Game::scale)) * 0.5f) / Game::scale;
-	virtualMouse.y = (mouse.y - (GetScreenHeight() - (Game::screenHeight * Game::scale)) * 0.5f) / Game::scale;
-	virtualMouse = Vector2Clamp(virtualMouse, Vector2{ 0, 0 }, Vector2{ (float)Game::screenWidth , (float)Game::screenHeight });
-
+	virtualMouse.x = (mouse.x - (GetScreenWidth() - (Screen::screenWidth* Screen::scale)) * 0.5f) / Screen::scale;
+	virtualMouse.y = (mouse.y - (GetScreenHeight() - (Screen::screenHeight * Screen::scale)) * 0.5f) / Screen::scale;
+	virtualMouse = Vector2Clamp(virtualMouse, Vector2{ 0, 0 }, Vector2{ (float)Screen::screenWidth , (float)Screen::screenHeight });
+	btnState = false;
 	if (!checkIfHovering(virtualMouse)) {
 		colorCpy = color;
 		return;
@@ -28,18 +28,17 @@ void Button::updateState() {
 	colorCpy.r = 255;
 	colorCpy.g = 255;
 	colorCpy.b = 255;
-	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-		if (onClick == nullptr) {
-			// Need to set a button handler
-			return;
-		}
-		onClick();
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		btnState = true;
+	}
+	else {
+		btnState = false;
 	}
 }
 
-void Button::setOnClick(void(*function)(void))
+bool Button::isPressed()
 {
-	onClick = function;
+	return btnState;
 }
 
 bool Button::checkIfHovering(Vector2 mousePos) {

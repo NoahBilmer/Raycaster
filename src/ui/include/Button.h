@@ -11,6 +11,7 @@ public:
 	void setOnClick(void (*function)(void));
 	void draw();
 	void updateState();
+	bool isPressed();
 	
 private:
 	bool checkIfHovering(Vector2 mousePos);
@@ -20,5 +21,5 @@ private:
 	Color colorCpy;
 	std::string title;
 	bool isHovering;
-	void(*onClick)(void); // 
+	bool btnState;
 };

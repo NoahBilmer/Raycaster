@@ -1,46 +1,47 @@
 #include "include/PauseScreen.h"
 #include "include/Game.h"
-
-
-void exitButtonCallback(void) {
-    // todo
-}
+#include "include/TitleScreen.h"
 
 /*
  * Constructor for the pause screen 
  */
 PauseScreen::PauseScreen()
 {
-    pauseTarget = LoadRenderTexture(Game::screenWidth, Game::screenHeight);
-    std::string txt = "Exit";
-    exitBtn = Button(Rectangle{ Game::screenWidth / 2 - 200,Game::screenHeight / 2,400,100 }, .2, Color{ 150,150,150,255 }, txt);
-    exitBtn.setOnClick(exitButtonCallback);
+    std::string txt = "exit";
+    exitBtn = Button(Rectangle{ Screen::screenWidth / 2 - 200,Screen::screenHeight / 2,400,100 }, .2, Color{ 220,220,240,255 }, txt);
+}
+
+
+/*
+ * Update function for the pause screen.
+ * Returns: the next screen.
+ */
+std::shared_ptr<Screen> PauseScreen::update(Input& input)
+{
+    if (!input.isPaused()) {
+        Screen::clearScreen();
+        Screen::mainLayerTransparency = 255;
+        Screen::secondaryLayerTransparency = 255; 
+        return Screen::getInstanceOf<Game>();
+    }
+    exitBtn.updateState();
+    if (exitBtn.isPressed()) {
+        Screen::clearScreen();
+        return Screen::getInstanceOf<TitleScreen>();
+    }
+    draw();
+    
+    return Screen::getInstanceOf<PauseScreen>();
 }
 
 /*
- * The draw function for the pause screen. . 
+ * The draw function for the pause screen.
  */
 void PauseScreen::draw()
 {
-    scale = MIN((float)GetScreenWidth() / Game::screenWidth, (float)GetScreenHeight() / Game::screenHeight);
-    BeginTextureMode(pauseTarget);
-    //DrawEllipse(Game::screenWidth / 2, Game::screenHeight / 2, 50, 50, BLUE);
+    Screen::mainLayerTransparency = 100;
+    Screen::secondaryLayerTransparency = 200;
+    BeginTextureMode(Screen::secondaryLayer);
     exitBtn.draw();
     EndTextureMode();
-}
-
-/*
- * the "logic" function for the pause screen. 
- */
-void PauseScreen::doLogic()
-{
-    exitBtn.updateState();
-}
-
-/*
- * Returns the pause "target", which acts as a canvas to draw things to the screen. 
- */
-RenderTexture2D PauseScreen::getPauseTarget()
-{
-    return pauseTarget;
 }

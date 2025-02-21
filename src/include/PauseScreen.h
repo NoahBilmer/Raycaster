@@ -1,15 +1,17 @@
 #pragma once
 #include "raylib.h"
 #include "../ui/include/button.h"
+#include "Screen.h"
+#include "Input.h"
 
-class PauseScreen
+
+class PauseScreen : public Screen
 {
 public:
 
 	PauseScreen();
+	std::shared_ptr<Screen> update(Input& input) override;
 	void draw();
-	void doLogic();
-	RenderTexture2D getPauseTarget();
 	
 private: 
 	float scale;

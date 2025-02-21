@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="src\include\Entity.h" />
     <ClInclude Include="src\include\Game.h" />
+    <ClInclude Include="src\include\GameScreen.h" />
     <ClInclude Include="src\include\Helpers.h" />
     <ClInclude Include="src\include\Input.h" />
     <ClInclude Include="src\include\Map.h" />
@@ -136,6 +137,8 @@
     <ClInclude Include="src\include\Player.h" />
     <ClInclude Include="src\include\Ray2d.h" />
     <ClInclude Include="src\include\RayCaster.h" />
+    <ClInclude Include="src\include\Screen.h" />
+    <ClInclude Include="src\include\TitleScreen.h" />
     <ClInclude Include="src\resources\romulus.h" />
     <ClInclude Include="src\ui\include\Button.h" />
     <ClInclude Include="src\ui\include\Slider.h" />
@@ -146,11 +149,14 @@
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Helpers.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\PauseScreen.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\RayCaster.cpp" />
+    <ClCompile Include="src\Screen.cpp" />
+    <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
     <ClCompile Include="src\ui\Slider.cpp" />
   </ItemGroup>

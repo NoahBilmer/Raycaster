@@ -9,9 +9,18 @@ public:
     Input();
 
     // Method to handle input and update moveVec
-    void getInput(Player* player);
+    void getInput();
 
-    // Method to calculate the angle between two vectors
-    float angleBetween(Vector2 firstVec, float theta);
+    Vector2 getMoveVec();
+    int getLookDir();
+    bool isPaused();
+    void reset();
+    bool startKeyPressed();
+
+private:
+    Vector2 moveVec;
+    int lookDir;
+    bool paused;
+    bool start;
 };
 
