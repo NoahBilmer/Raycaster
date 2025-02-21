@@ -11,31 +11,28 @@
 #include <array>
 #include "unordered_set"
 #include "PauseScreen.h"
+#include "Input.h"
+#include "GameScreen.h"
 
-class Game
+class Game : public Screen
 {
 public:
 	Game();
 	~Game();
-	void update(void);
+	std::shared_ptr<Screen> update(Input& input) override;
 	static Map* getMap();
-	static const int screenWidth = 1200;
-	static const int screenHeight = 1000;
 	static Font defaultFont;
-	static float scale;
 private:
 	static Map* map;
-	RenderTexture2D target;
 	Color targetColor = Color{ 255,255,255,255 };
 	Player player;
-	bool isPaused = false;
+	Input input;
 	RayCaster rayCaster;
 
 	int frameCounter;
 	void drawView();
 	void doLogic(void);
 	void render(void);
-	void getInput(void);
 
 };
 

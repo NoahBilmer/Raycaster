@@ -53,6 +53,12 @@
     <ClInclude Include="src\include\Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\GameScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\TitleScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -86,6 +92,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TitleScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

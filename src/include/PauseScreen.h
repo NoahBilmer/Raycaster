@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "../ui/include/button.h"
 #include "Screen.h"
+#include "Input.h"
 
 
 class PauseScreen : public Screen
@@ -9,10 +10,8 @@ class PauseScreen : public Screen
 public:
 
 	PauseScreen();
-	int update() override;
+	std::shared_ptr<Screen> update(Input& input) override;
 	void draw();
-	void doLogic();
-	RenderTexture2D getPauseTarget();
 	
 private: 
 	float scale;

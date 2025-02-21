@@ -1,35 +1,22 @@
 #include "include/Screen.h"
 #include "include/PauseScreen.h"
+#include "include/Game.h"
+#include "include/TitleScreen.h"
 
-std::shared_ptr<Screen> Screen::screenArr[screenCount];
-
-void Screen::setIndex(int i)
-{
-	index = i;
-}
-
-int Screen::getIndex()
-{
-	return index;
-}
+std::array<std::shared_ptr<Screen>, Screen::screenCount> Screen::screenArr;
 
 void Screen::setupScreenArray()
 {
-	addToArr(std::make_shared<PauseScreen>());
+	addToArr<Game>(std::make_shared<Game>());
+	addToArr<PauseScreen>(std::make_shared<PauseScreen>());
+	addToArr<TitleScreen>(std::make_shared<TitleScreen>());
 	
 }
 
-std::shared_ptr<Screen> Screen::getScreen(int index)
+void Screen::clearScreen()
 {
-	return screenArr[index];
-}
-
-void Screen::addToArr(std::shared_ptr<Screen> screen)
-{
-	for (int i = 0; i < sizeof(screenArr) / sizeof(Screen); i++) {
-		if (screenArr[i] == nullptr) {
-			screenArr[i] = screen;
-			screenArr[i].get()->setIndex(i);
-		}
-	}
+	UnloadRenderTexture(mainLayer);
+	UnloadRenderTexture(secondaryLayer);
+	mainLayer = LoadRenderTexture(screenWidth, screenHeight);
+	secondaryLayer = LoadRenderTexture(screenWidth, screenHeight);
 }
