@@ -18,15 +18,18 @@ void Map::loadMap(std::string mapName)
 	Line line2({ 100,100 }, { 200,350 }, DARKBLUE);
 	Line line3({ 700,200 }, { 1200,200 }, RED);
 	Line line4({ 700,200 }, { 700,0 }, RED);
+	Line line5({ 50,150 }, { 700,0 }, RED);
 
 	createRect(Rectangle{100,100,50,50}, DARKGREEN);
 	createRect(Rectangle{ 1000,800,15,15 }, DARKPURPLE);
 	createRect(Rectangle{ 200,500,10,10 }, ORANGE);
 	createRect(Rectangle{ 250,550,10,10 }, ORANGE);
+	
 	map.push_back(line);
 	map.push_back(line2);
 	map.push_back(line3);
 	map.push_back(line4);
+	map.push_back(line5);
 }
 
 void Map::createRect(Rectangle rect, Color color) {
@@ -43,7 +46,7 @@ void Map::createRect(Rectangle rect, Color color) {
 	
 }
 
-std::vector<Line> Map::getLineVector()
+const std::vector<Line>& Map::getLineVector()
 {
 	return map;
 }

@@ -30,7 +30,7 @@ public:
 	~RayCaster();
 	RayCaster(Map& map, Entity& entity, int fov, int rayCount);
 	void castRays();
-	std::unordered_set<Ray2d> getRays();
+	const std::unordered_set<Ray2d>& getRays();
 	const int getRayCount();
 	Vector2 getLookRay();
 	Ray2d closestPoint(Vector2 ray);

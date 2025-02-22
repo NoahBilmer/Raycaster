@@ -46,7 +46,7 @@ void RayCaster::castRays()
 
 /* Returns the unordered set of rays
  */
-std::unordered_set<Ray2d> RayCaster::getRays() {
+const std::unordered_set<Ray2d>& RayCaster::getRays() {
 	return rays;
 }
 

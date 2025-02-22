@@ -7,7 +7,8 @@
 
 /*
 The screen array (and it's related methods) are static because all subclasses that inherit 
-from Screen need to have access to every screen in the program so we may transition to a new screen regardless
+from Screen need to have access to every screen in the program so we may transition to a 
+screen regardless
 of which screen we are on. 
 */
 class Screen {
