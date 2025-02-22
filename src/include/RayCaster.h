@@ -27,7 +27,6 @@ private:
 	
 public:
 	RayCaster();
-	~RayCaster();
 	RayCaster(Map& map, Entity& entity, int fov, int rayCount);
 	void castRays();
 	const std::unordered_set<Ray2d>& getRays();

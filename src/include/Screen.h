@@ -25,7 +25,7 @@ public:
     static float scale;
     virtual std::shared_ptr<Screen> update(Input& input) = 0;
     Screen();
-    virtual ~Screen() {}
+    ~Screen();
     static void setupScreenArray(); // mandatory in order to use the class
     bool isUsingSecondaryLayer();
 

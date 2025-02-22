@@ -51,6 +51,7 @@ int main(void)
     }
     #endif
     
+    CloseWindow();                      // Close window and OpenGL context
     return 0;
 }
 

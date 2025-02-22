@@ -15,6 +15,12 @@ Screen::Screen()
 	secondaryLayerTransparency = 255;
 }
 
+Screen::~Screen()
+{
+	UnloadRenderTexture(mainLayer);
+	UnloadRenderTexture(secondaryLayer);
+}
+
 void Screen::setupScreenArray()
 {
 	addToArr<Game>(std::make_shared<Game>());

@@ -17,21 +17,13 @@ struct Line {
 
 class Map
 {
-
 private:
-	/* Map is just a list of lines.*/
 	std::vector<Line> map;
-
-
 public:
-	Map();
+	Map() = default;
 	Map(std::string mapDirectory);
-	void serializeMap(char* name);
-
-	void loadMap(std::string mapName);
-
+	void loadMap();
 	const std::vector<Line>& getLineVector();
-
 	void createRect(Rectangle rect, Color color);
 
 };

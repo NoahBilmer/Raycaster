@@ -20,16 +20,10 @@ RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount) : entity(en
 	this->rayCount = rayCount;
 }
 
-RayCaster::~RayCaster()
-{
-	
-}
-
 /* Cast out a ray from the player position to the nearest object.
  * and then return the point of intersection.
  */ 
-void RayCaster::castRays()
-{
+void RayCaster::castRays() {
 	rays.clear();
 	float theta = entity.get().rotation*DEG2RAD;
 	const long float deg = (0.0174533 * fov) / rayCount;

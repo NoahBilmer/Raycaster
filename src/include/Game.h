@@ -18,7 +18,6 @@ class Game : public Screen
 {
 public:
 	Game();
-	~Game();
 	std::shared_ptr<Screen> update(Input& input) override;
 	static Map& getMap();
 	static Font defaultFont;

@@ -1,18 +1,6 @@
 #include "include/Map.h"
 
-/**
- * Constructor for the Map class.
- */
-Map::Map() {
-
-}
-
-void Map::serializeMap(char* name) {
-	// TODO
-}
-
-
-void Map::loadMap(std::string mapName)
+void Map::loadMap()
 {
 	Line line({ 200,200 },{ 500,500 },DARKBLUE);
 	Line line2({ 100,100 }, { 200,350 }, DARKBLUE);

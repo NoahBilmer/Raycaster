@@ -9,9 +9,8 @@ float Screen::scale;
  * Constructor for the Game class.
  */
 Game::Game() {
-
     map = Map();
-    map.loadMap("map");
+    map.loadMap();
     player = Player(Vector2{ 550,500 }, map);
     rayCaster = RayCaster(map, player.getEntity(), 66, 500);
     
@@ -137,13 +136,4 @@ void Game::drawView() {
         DrawLineEx(lineStart, lineEnd, lineWidth , colorVal);
         
     }
-}
-
-
-/**
- * Deconstructor for the Game class.
- */
-Game::~Game() {
-  // UnloadRenderTexture();        
-    CloseWindow();
 }
