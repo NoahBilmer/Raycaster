@@ -22,14 +22,14 @@ public:
 	float getRotation();
 	void updatePosition();
 	Vector2 getNextPosition();
-	Entity* getEntity();
+	Entity& getEntity();
 
 private: 
 	Vector2 moveVec;  // Movement vector
 	Vector2 lookVec;  // Normalized vector representing the look direction
 	Vector2 horizontalVec; // the vector perpendicular to the look direction. 
-	Entity* entity;
-	Map* map;
+	Entity entity;
+	Map map;
 	float speed;
 	int fov = 66;
 };

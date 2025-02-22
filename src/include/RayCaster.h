@@ -12,8 +12,7 @@
 #include "Ray2d.h"
 #include "Entity.h"
 #include <stdexcept>
-
-
+#include <functional>
 
 class RayCaster
 {
@@ -21,8 +20,9 @@ private:
 	float fov = 66;
 	int rayCount;
 	int rayLength = 1000;
-	Map *map;
-	Entity *entity;
+	Map map;
+	std::reference_wrapper<Entity> entity;
+	Entity defaultEntity = Entity( Vector2{300,300},90 );
 	std::unordered_set<Ray2d> rays;
 	
 public:

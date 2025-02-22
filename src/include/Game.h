@@ -20,10 +20,10 @@ public:
 	Game();
 	~Game();
 	std::shared_ptr<Screen> update(Input& input) override;
-	static Map* getMap();
+	static Map& getMap();
 	static Font defaultFont;
 private:
-	static Map* map;
+	static Map map;
 	Color targetColor = Color{ 255,255,255,255 };
 	Player player;
 	Input input;

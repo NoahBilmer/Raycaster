@@ -1,7 +1,7 @@
 #include "include/Game.h"
 #include "resources/romulus.h"
 
-Map* Game::map;
+Map Game::map;
 Font Game::defaultFont;
 float Screen::scale;
 
@@ -10,11 +10,10 @@ float Screen::scale;
  */
 Game::Game() {
 
-    if (map == nullptr)
-        map = new Map();
-    map->loadMap("map");
-    player = Player({ 550,500 }, *map);
-    rayCaster = RayCaster(*map, *player.getEntity(), 66, 500);
+    map = Map();
+    map.loadMap("map");
+    player = Player(Vector2{ 550,500 }, map);
+    rayCaster = RayCaster(map, player.getEntity(), 66, 500);
     
     frameCounter = 0;
 }
@@ -41,7 +40,7 @@ std::shared_ptr<Screen> Game::update(Input& input) {
 /*
  * Returns the map 
  */
-Map* Game::getMap()
+Map& Game::getMap()
 {
     return map;
 }
@@ -51,7 +50,8 @@ Map* Game::getMap()
  */
 void Game::doLogic() {
     rayCaster.castRays();
-    for (auto line : map->getLineVector()) {
+    // Do the collision check.
+    for (auto line : map.getLineVector()) {
         Vector2 res = findPointOfIntersection(player.getPosition(),player.getNextPosition(), line.p1, line.p2);
         if (res.x != -1 && res.y != -1) {
             return;
@@ -77,7 +77,12 @@ void Game::render() {
         // Create the background 
         DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
         DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
-
+        char positionStr[50];
+        std::snprintf(positionStr, 50, "Position: (%f,%f)", position.x, position.y);
+        char lookStr[50];
+        std::snprintf(lookStr, 50, "Rotation: (%f)", player.getRotation());
+        DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
+        DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
         drawView();
 
         DrawFPS(10, 10);
@@ -139,7 +144,6 @@ void Game::drawView() {
  * Deconstructor for the Game class.
  */
 Game::~Game() {
-    delete map;
   // UnloadRenderTexture();        
     CloseWindow();
 }

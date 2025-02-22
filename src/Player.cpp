@@ -8,10 +8,9 @@ Player::Player() {
 	lookVec = { 0,  0, };
 	horizontalVec = { 0,0 };
 	speed = 2;
-	if (this->map == nullptr)
-		this->map = new Map();
-	if (this->entity == nullptr)
-		this->entity = new Entity{ Vector2{500,500},90 };
+	this->map = Map();
+	this->entity = Entity{ Vector2{500,500 }, 90
+};
 }
 
 
@@ -19,8 +18,8 @@ Player::Player() {
  * Custom constructor for Player
  */
 Player::Player(Vector2 startPos, Map& map) : Player() { 
-	this->map = &map;
-	this->entity = new Entity{ startPos,90 };
+	this->map = map;
+	this->entity = Entity{ startPos,90 };
 }
 
 /**
@@ -30,14 +29,14 @@ Player::Player(Vector2 startPos, Map& map) : Player() {
  */
 void Player::updateRotation(int newDir)
 {
-	entity->rotation = newDir;
-	if (entity->rotation > 360)
-		entity->rotation = 0;
-	if (entity->rotation < 0)
-		entity->rotation = 360;
+	entity.rotation = newDir;
+	if (entity.rotation > 360)
+		entity.rotation = 0;
+	if (entity.rotation < 0)
+		entity.rotation = 360;
 
-	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov/2)));
-	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * entity->rotation + DEG2RAD * fov/2) + (DEG2RAD * 90)));
+	lookVec = Vector2Normalize(getRayFromAngle(DEG2RAD * entity.rotation + (DEG2RAD * fov/2)));
+	horizontalVec = Vector2Normalize(getRayFromAngle((DEG2RAD * entity.rotation + DEG2RAD * fov/2) + (DEG2RAD * 90)));
 
 }
 
@@ -53,7 +52,7 @@ Vector2 Player::getLookVec() {
  */
 Vector2 Player::getPosition()
 {
-	return entity->position;
+	return entity.position;
 }
 
 /*
@@ -61,7 +60,7 @@ Vector2 Player::getPosition()
  */
 float Player::getRotation()
 {
-	return entity->rotation;
+	return entity.rotation;
 }
 
 /*
@@ -70,11 +69,11 @@ float Player::getRotation()
  */
 void Player::updatePosition()
 {
-	entity->position = getNextPosition();
+	entity.position = getNextPosition();
 }
 
 Vector2 Player::getNextPosition() {
-	Vector2 nextPos = entity->position;
+	Vector2 nextPos = entity.position;
 	nextPos.y += moveVec.x * horizontalVec.y * speed;
 	nextPos.x += moveVec.x * horizontalVec.x * speed;
 	nextPos.y += moveVec.y * lookVec.y * speed;
@@ -85,7 +84,7 @@ Vector2 Player::getNextPosition() {
 /*
  * Returns the pointer to the players entity object.
  */
-Entity* Player::getEntity()
+Entity& Player::getEntity()
 {
 	return entity;
 }
