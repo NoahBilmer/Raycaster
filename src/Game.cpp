@@ -11,7 +11,7 @@ float Screen::scale;
 Game::Game() {
     map = Map();
     map.loadMap();
-    player = Player(Vector2{ 550,500 }, map);
+    player = Player(Vector2{ 1110,1110 }, map);
     rayCaster = RayCaster(map, player.getEntity(), 66, 500);
     
     frameCounter = 0;

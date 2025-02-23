@@ -9,7 +9,7 @@ Player::Player() {
 	horizontalVec = { 0,0 };
 	speed = 2;
 	this->map = Map();
-	this->entity = Entity{ Vector2{500,500 }, 90
+	this->entity = Entity{ Vector2{1100,1100 }, 60
 };
 }
 
@@ -19,7 +19,7 @@ Player::Player() {
  */
 Player::Player(Vector2 startPos, Map& map) : Player() { 
 	this->map = map;
-	this->entity = Entity{ startPos,90 };
+	this->entity = Entity{ startPos,60 };
 }
 
 /**
