@@ -39,7 +39,7 @@ int main(void)
     Game::defaultFont = LoadFont_Romulus();
 
     SetTargetFPS(60);
-    // Intialize all of the screens in the application. 
+    // Initialize all of the screens in the application. 
     // Note that this means we will call the constructors of every screen.
     Screen::setupScreenArray();
     

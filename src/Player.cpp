@@ -81,6 +81,15 @@ Vector2 Player::getNextPosition() {
 	return nextPos;
 }
 
+Vector2 Player::getNextMoveVec() {
+	Vector2 nextPos = Vector2{ 0,0 };
+	nextPos.y += moveVec.x * horizontalVec.y * speed;
+	nextPos.x += moveVec.x * horizontalVec.x * speed;
+	nextPos.y += moveVec.y * lookVec.y * speed;
+	nextPos.x += moveVec.y * lookVec.x * speed;
+	return nextPos;
+}
+
 /*
  * Returns the pointer to the players entity object.
  */

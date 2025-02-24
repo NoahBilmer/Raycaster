@@ -14,6 +14,8 @@ public:
 	Player();
 	Player(Vector2 startPos, Map& map);
 	void UpdateStateVecs(Vector2 moveVec, Vector2 lookVec);
+	Vector2 getNextPosition();
+	Vector2 getNextMoveVec();
 	Vector2 getMoveVec();
 	void setMoveVec(Vector2 newVec);
 	void updateRotation(int newDir);
@@ -21,7 +23,6 @@ public:
 	Vector2 getPosition();
 	float getRotation();
 	void updatePosition();
-	Vector2 getNextPosition();
 	Entity& getEntity();
 
 private: 

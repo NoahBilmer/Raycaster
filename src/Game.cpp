@@ -51,7 +51,11 @@ void Game::doLogic() {
     rayCaster.castRays();
     // Do the collision check.
     for (auto line : map.getLineVector()) {
-        Vector2 res = findPointOfIntersection(player.getPosition(),player.getNextPosition(), line.p1, line.p2);
+        Vector2 nextPos = Vector2Scale(player.getNextMoveVec(), 1.4); // Scale up the next position vector slightly so we ensure we aren't 
+                                                                      // so close so as to cause graphical bugs
+        nextPos.x += player.getPosition().x;
+        nextPos.y += player.getPosition().y;
+        Vector2 res = findPointOfIntersection(player.getPosition(),nextPos, line.p1, line.p2);
         if (res.x != -1 && res.y != -1) {
             return;
         }

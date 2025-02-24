@@ -23,12 +23,10 @@ PauseScreen::PauseScreen()
 std::shared_ptr<Screen> PauseScreen::update(Input& input)
 {
     if (!input.isPaused()) {
-        //Screen::clearScreen();
         return Screen::getInstanceOf<Game>();
     }
     exitBtn.updateState();
     if (exitBtn.isPressed()) {
-        //Screen::clearScreen();
         return Screen::getInstanceOf<TitleScreen>();
     }
     draw();
