@@ -158,7 +158,6 @@
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
-    <ClCompile Include="src\ui\Slider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
