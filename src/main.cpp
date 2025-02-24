@@ -15,7 +15,7 @@
 #include "include/TitleScreen.h"
 #include "resources/romulus.h"
 
-#define PLATFORM_WEB 1
+//#define PLATFORM_WEB 1
 
 #if defined(PLATFORM_WEB)
 #include "emscripten/emscripten.h"

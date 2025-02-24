@@ -14,7 +14,7 @@ public:
 	void draw();
 	
 private: 
-	Color textColor = {0,0,0,255};
+	Color textColor = {100,100,100,255};
 	int colorFadeDir;
 	Button exitBtn;
 };
