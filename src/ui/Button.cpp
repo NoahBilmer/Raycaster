@@ -1,5 +1,4 @@
 #include "include/Button.h"
-#include "../resources/romulus.h"
 #include "../include/Game.h"
 
 Button::Button() : Button(Rectangle{0,0,0,0},0.0f,BLUE,std::string()) {}

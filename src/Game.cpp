@@ -99,7 +99,6 @@ void Game::drawView() {
     std::unordered_set<Ray2d> rays = rayCaster.getRays();
     float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
     float dist;
-    int count = 0;
     int wallSize = 20;
     int wallHeight = 96;
     float intensity;
@@ -112,7 +111,7 @@ void Game::drawView() {
        
         rayVector.x = abs(ray.point.x - player.getPosition().x);
         rayVector.y = abs(ray.point.y - player.getPosition().y);
-        float angle = atan2(rayVector.y,rayVector.x);
+
         // Get the distance (Add a tiny constant so we never divide by 0)
         dist = abs(sqrt(rayVector.x * rayVector.x + rayVector.y * rayVector.y));
         float lineSize = ((wallHeight / dist) * 277) + wallSize;

@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include "raymath.h"
-#include "../ui/include/button.h"
+#include "../ui/include/Button.h"
 #include "Screen.h"
 #include "Input.h"
 #include "Game.h"

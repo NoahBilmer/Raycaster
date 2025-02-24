@@ -1,18 +1,16 @@
 #pragma once
 #include "Player.h"
 #include "Map.h"
-#include "Raycaster.h"
+#include "RayCaster.h"
 #include "Entity.h"
 #include "Helpers.h"
 #include "raymath.h"
 #include "stdio.h"
 #include "string.h"
 #include <iostream>
-#include <array>
 #include "unordered_set"
 #include "PauseScreen.h"
 #include "Input.h"
-#include "GameScreen.h"
 
 class Game : public Screen
 {
@@ -23,7 +21,6 @@ public:
 	static Font defaultFont;
 private:
 	static Map map;
-	Color targetColor = Color{ 255,255,255,255 };
 	Player player;
 	Input input;
 	RayCaster rayCaster;

@@ -30,8 +30,7 @@ std::shared_ptr<Screen> TitleScreen::update(Input& input)
 {
     frameCount++;
     startBtn.updateState();
-    if (startBtn.isPressed() || input.startKeyPressed()) {
-        Screen::clearScreen();
+    if (startBtn.isPressed() || input.startKeyPressed()) {     
         input.reset();
         return Screen::getInstanceOf<Game>();
     }

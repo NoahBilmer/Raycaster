@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include "../ui/include/button.h"
+#include "../ui/include/Button.h"
 #include "Screen.h"
 #include "Input.h"
 
@@ -16,8 +16,6 @@ public:
 private: 
 	Color textColor = {0,0,0,255};
 	int colorFadeDir;
-	float scale;
-	RenderTexture2D pauseTarget;
 	Button exitBtn;
 };
 

@@ -2,7 +2,7 @@
 * Raycaster by Noah Bilmer
 ********************************************************************************************/
 
-#include "include/input.h"
+#include "include/Input.h"
 #include "raymath.h"
 #include "raylib.h"
 #include "include/Player.h"
@@ -15,7 +15,7 @@
 #include "include/TitleScreen.h"
 #include "resources/romulus.h"
 
-//#define PLATFORM_WEB 1
+#define PLATFORM_WEB 1
 
 #if defined(PLATFORM_WEB)
 #include "emscripten/emscripten.h"

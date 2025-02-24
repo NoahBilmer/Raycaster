@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClInclude Include="src\include\Entity.h" />
     <ClInclude Include="src\include\Game.h" />
-    <ClInclude Include="src\include\GameScreen.h" />
     <ClInclude Include="src\include\Helpers.h" />
     <ClInclude Include="src\include\Input.h" />
     <ClInclude Include="src\include\Map.h" />
