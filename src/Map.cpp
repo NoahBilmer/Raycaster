@@ -1,34 +1,69 @@
-#include "Map.h"
+#include "include/Map.h"
 
-Map::Map() {
-	Map(""); // todo: implement saving/loading maps
-}
-
-Map::Map(std::string mapDirectory)
+void Map::loadMap()
 {
-	map = {};
-}
+	// Line line({ 200,200 },{ 500,500 },DARKBLUE);
 
-std::vector<std::string> Map::getMapList()
-{
-	return std::vector<std::string>();
-}
-
-void Map::loadMap(std::string mapName)
-{
-	Line line({ 200,200 },{ 500,500 },DARKBLUE);
-	Line line2({ 100,100 }, { 200,350 }, DARKBLUE);
-	Line line3({ 700,200 }, { 1200,200 }, RED);
-	Line line4({ 700,200 }, { 700,0 }, RED);
-
-	createRect(Rectangle{100,100,50,50}, DARKGREEN);
-	createRect(Rectangle{ 1000,800,15,15 }, DARKPURPLE);
-	createRect(Rectangle{ 200,500,10,10 }, ORANGE);
-	createRect(Rectangle{ 250,550,10,10 }, ORANGE);
+	createRect(Rectangle{ 1000,1000,75,75 }, DARKGREEN);
+	createRect(Rectangle{ 1000,1150,75,75 }, DARKGREEN);
+	createRect(Rectangle{ 1150,1150,75,75 }, DARKGREEN);
+	createRect(Rectangle{ 1150,1000,75,75 }, DARKGREEN);
+	createRect(Rectangle{ 1150,900,75,75 }, RED);
+	createRect(Rectangle{ 1000,900,75,75 }, RED);
+	Line line({ 1000,900 }, {500, 500}, RED);
+	Line line2({ 1225,900 }, { 1000, 500 }, RED);
+	Line line3({ 500,500 }, { 1000, 500 }, RED);
+	
 	map.push_back(line);
 	map.push_back(line2);
 	map.push_back(line3);
-	map.push_back(line4);
+
+
+	createRect(Rectangle{ 900,1025,50,50 }, SKYBLUE);
+	createRect(Rectangle{ 900,1150,50,50 }, SKYBLUE);
+
+	createRect(Rectangle{ 750,1025,50,50 }, BLUE);
+	createRect(Rectangle{ 750,1150,50,50 }, BLUE);
+
+	createRect(Rectangle{ 600,1025,50,50 }, SKYBLUE);
+	createRect(Rectangle{ 600,1150,50,50 }, SKYBLUE);
+
+	createRect(Rectangle{ 1025,1275,50,200 }, DARKBLUE);
+	createRect(Rectangle{ 875,1275,200,50 }, DARKBLUE);
+	createRect(Rectangle{ 1150,1275,50,200 }, DARKBLUE);
+	createRect(Rectangle{ 1150,1275,200,50 }, DARKBLUE);
+
+	createRect(Rectangle{ 1275,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1275,1075,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1300,1135,15,15 }, GRAY);
+	createRect(Rectangle{ 1300,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1325,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1325,1075,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1350,1135,15,15 }, GRAY);
+	createRect(Rectangle{ 1350,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1375,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1375,1075,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1400,1135,15,15 }, GRAY);
+	createRect(Rectangle{ 1400,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1425,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1425,1075,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1450,1135,15,15 }, GRAY);
+	createRect(Rectangle{ 1450,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1475,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1475,1075,15,15 }, DARKPURPLE);
+
+	createRect(Rectangle{ 875,1275,50,200 }, DARKBLUE);
+	
+	createRect(Rectangle{ 1350,1275,50,200 }, DARKBLUE);
+	createRect(Rectangle{ 1025,1525,50,200 }, DARKBLUE);
+	createRect(Rectangle{ 1150,1525,50,200 }, DARKBLUE);
+
+	createRect(Rectangle{ 1750,1625,100,100 }, WHITE);
+	createRect(Rectangle{ 1550,1875,100,100 }, WHITE);
+	createRect(Rectangle{ 1650,1750,100,100 }, WHITE);
+	createRect(Rectangle{ 1650,1500,100,100 }, WHITE);
+	createRect(Rectangle{ 1550,1375,100,100 }, WHITE);
+	
 }
 
 void Map::createRect(Rectangle rect, Color color) {
@@ -45,7 +80,7 @@ void Map::createRect(Rectangle rect, Color color) {
 	
 }
 
-std::vector<Line> Map::getMap()
+const std::vector<Line>& Map::getLineVector()
 {
 	return map;
 }
