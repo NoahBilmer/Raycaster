@@ -72,6 +72,10 @@ void Player::updatePosition()
 	entity.position = getNextPosition();
 }
 
+
+/*
+ * Returns the next position of the player.
+ */
 Vector2 Player::getNextPosition() {
 	Vector2 nextPos = entity.position;
 	nextPos.y += moveVec.x * horizontalVec.y * speed;
@@ -81,6 +85,11 @@ Vector2 Player::getNextPosition() {
 	return nextPos;
 }
 
+
+/*
+ * Returns the players next "movement delta" i.e, how many units the player will move 
+ * in the x/y direction based on input.
+ */
 Vector2 Player::getNextMoveVec() {
 	Vector2 nextPos = Vector2{ 0,0 };
 	nextPos.y += moveVec.x * horizontalVec.y * speed;

@@ -80,15 +80,9 @@ void Game::render() {
         // Create the background 
         DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
         DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
-        char positionStr[50];
-        std::snprintf(positionStr, 50, "Position: (%f,%f)", position.x, position.y);
-        char lookStr[50];
-        std::snprintf(lookStr, 50, "Rotation: (%f)", player.getRotation());
-        DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
-        DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
+       
         drawView();
 
-        DrawFPS(10, 10);
     EndTextureMode();
 }
 

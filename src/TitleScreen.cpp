@@ -13,7 +13,6 @@ TitleScreen::TitleScreen()
     smallFontSize = 35;
     txt = "start";
     title = "raycaster demo built in raylib";
-    info = "press enter to start";
     githubLink = "https://github.com/noahbilmer/raycaster/";
     titleLength = MeasureTextEx(Game::defaultFont, title.c_str(), fontSize, 2);
     infoLength = MeasureTextEx(Game::defaultFont, info.c_str(), fontSize, 2);
@@ -55,7 +54,6 @@ void TitleScreen::draw()
         DrawTextEx(Game::defaultFont, githubLink.c_str(), Vector2{ (Screen::screenWidth / 2) - githubLength.x / 2, (float)smallFontSize }, 35, 2, txtColor);
         DrawTextEx(Game::defaultFont, title.c_str(), Vector2{ (Screen::screenWidth / 2) - titleLength.x / 2, (float)fontSize + smallFontSize }, fontSize, 2, txtColor);
         
-       // DrawTextEx(Game::defaultFont, info.c_str(), Vector2{ (Screen::screenWidth / 2) - infoLength.x / 2, Screen::screenHeight - infoLength.x }, fontSize, 2, txtColor);
 	EndTextureMode();
 }
 
