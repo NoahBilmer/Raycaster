@@ -2,8 +2,25 @@
 #include "include/PauseScreen.h"
 #include "include/Game.h"
 #include "include/TitleScreen.h"
+#include "resources/romulus.h"
 
 std::array<std::shared_ptr<Screen>, Screen::screenCount> Screen::screenArr;
+
+Screen::Screen()
+{
+	mainLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
+	mainLayerTransparency = 255;
+	secondaryLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
+	secondaryLayerTransparency = 255;
+	SetTextureFilter(mainLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+	SetTextureFilter(secondaryLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+}
+
+Screen::~Screen()
+{
+	UnloadRenderTexture(mainLayer);
+	UnloadRenderTexture(secondaryLayer);
+}
 
 void Screen::setupScreenArray()
 {
@@ -13,10 +30,15 @@ void Screen::setupScreenArray()
 	
 }
 
+bool Screen::isUsingSecondaryLayer()
+{
+	return useSecondaryLayer;
+}
+
 void Screen::clearScreen()
 {
-	UnloadRenderTexture(mainLayer);
-	UnloadRenderTexture(secondaryLayer);
+	UnloadRenderTexture(this->mainLayer);
+	UnloadRenderTexture(this->secondaryLayer);
 	mainLayer = LoadRenderTexture(screenWidth, screenHeight);
 	secondaryLayer = LoadRenderTexture(screenWidth, screenHeight);
 }

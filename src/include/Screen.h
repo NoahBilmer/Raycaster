@@ -7,23 +7,27 @@
 
 /*
 The screen array (and it's related methods) are static because all subclasses that inherit 
-from Screen need to have access to every screen in the program so we may transition to a new screen regardless
+from Screen need to have access to every screen in the program so we may transition to a 
+screen regardless
 of which screen we are on. 
 */
 class Screen {
 public:
+    // Rendering related stuff
+    RenderTexture2D mainLayer;
+    unsigned char mainLayerTransparency;
+    RenderTexture2D secondaryLayer;
+    unsigned char secondaryLayerTransparency;
+    
     static const int screenCount = 3;
-    static RenderTexture2D mainLayer;
-    static unsigned char mainLayerTransparency;
-    static RenderTexture2D secondaryLayer;
-    static unsigned char secondaryLayerTransparency;
     static const int screenWidth = 1200;
     static const int screenHeight = 1000;
     static float scale;
     virtual std::shared_ptr<Screen> update(Input& input) = 0;
-    virtual ~Screen() {}
+    Screen();
+    ~Screen();
     static void setupScreenArray(); // mandatory in order to use the class
-    static void clearScreen();
+    bool isUsingSecondaryLayer();
 
     template <class T>
     static std::shared_ptr<Screen> getInstanceOf() {
@@ -39,6 +43,8 @@ public:
     }
 
 protected:
+    bool useSecondaryLayer = false;
+    void clearScreen();
     template <class T>
     static void addToArr(std::shared_ptr<T> screen) {
         for (int i = 0; i < screenCount; i++) {

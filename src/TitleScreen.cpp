@@ -1,10 +1,14 @@
 #include "include/TitleScreen.h"
+#include "include/Helpers.h"
 
 /*
  * Constructor for the title screen
  */
 TitleScreen::TitleScreen()
 {
+    useSecondaryLayer = false;
+    mainLayerTransparency = 255;
+
     fontSize = 60;
     smallFontSize = 35;
     txt = "start";
@@ -14,7 +18,7 @@ TitleScreen::TitleScreen()
     titleLength = MeasureTextEx(Game::defaultFont, title.c_str(), fontSize, 2);
     infoLength = MeasureTextEx(Game::defaultFont, info.c_str(), fontSize, 2);
     githubLength = MeasureTextEx(Game::defaultFont, githubLink.c_str(), smallFontSize, 2);
-    startBtn = Button(Rectangle{Screen::screenWidth / 2 - 200,Screen::screenHeight - titleLength.y*2 - githubLength.y*2 - smallFontSize,400,100}, .2, Color{ 220,220,240,255 }, txt);
+    startBtn = Button(Rectangle{Screen::screenWidth / 2 - 200,Screen::screenHeight - titleLength.y*2 - githubLength.y*2 - smallFontSize,400,100}, .2, Color{ 190,190,240,255 }, txt);
     frameCount = 0;
 }
 
@@ -25,11 +29,8 @@ TitleScreen::TitleScreen()
 std::shared_ptr<Screen> TitleScreen::update(Input& input)
 {
     frameCount++;
-    Screen::mainLayerTransparency = 255;
-    Screen::secondaryLayerTransparency = 255;
     startBtn.updateState();
-    if (startBtn.isPressed() || input.startKeyPressed()) {
-        Screen::clearScreen();
+    if (startBtn.isPressed() || input.startKeyPressed()) {     
         input.reset();
         return Screen::getInstanceOf<Game>();
     }
@@ -42,8 +43,8 @@ std::shared_ptr<Screen> TitleScreen::update(Input& input)
  */
 void TitleScreen::draw()
 {
-	BeginTextureMode(Screen::mainLayer);
-        transitionBackgroundHue();
+	BeginTextureMode(this->mainLayer);
+        transitionBackgroundHue(&backgroundColor,&colorFadeDir);
         startBtn.draw();
         ClearBackground(backgroundColor);
         Color txtColor = backgroundColor;
@@ -58,32 +59,3 @@ void TitleScreen::draw()
 	EndTextureMode();
 }
 
-/**
-* transitions the background hue to a slightly different color every frame.
-* We use this in the title screen to create an interesting background color effect.
-*/
-void TitleScreen::transitionBackgroundHue() {
-    int MAX_RED = 190;
-    int MAX_GREEN = 200;
-    int MAX_BLUE = 220;
-    int MIN_RED = 87;
-    int MIN_GREEN = 103;
-    int MIN_BLUE = 178;
-
-    if (backgroundColor.r == MAX_RED && backgroundColor.g == MAX_GREEN && backgroundColor.b == MAX_BLUE) {
-        colorFadeDir = -1;
-    }
-    else if (backgroundColor.r == MIN_RED && backgroundColor.g == MIN_GREEN && backgroundColor.b == MIN_BLUE) {
-        colorFadeDir = 1;
-    }
-    
-    backgroundColor.r += colorFadeDir;
-    backgroundColor.g += colorFadeDir;
-    backgroundColor.b += colorFadeDir;
-    
-    // Clamp our color values to ensure they stay between our desired range.
-    backgroundColor.r = Clamp(backgroundColor.r, MIN_RED, MAX_RED);
-    backgroundColor.g = Clamp(backgroundColor.g, MIN_GREEN, MAX_GREEN);
-    backgroundColor.b = Clamp(backgroundColor.b, MIN_BLUE, MAX_BLUE);
-
-}

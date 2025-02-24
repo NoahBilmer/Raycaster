@@ -12,8 +12,7 @@
 #include "Ray2d.h"
 #include "Entity.h"
 #include <stdexcept>
-
-
+#include <functional>
 
 class RayCaster
 {
@@ -21,16 +20,16 @@ private:
 	float fov = 66;
 	int rayCount;
 	int rayLength = 1000;
-	Map *map;
-	Entity *entity;
+	Map map;
+	std::reference_wrapper<Entity> entity;
+	Entity defaultEntity = Entity( Vector2{300,300},90 );
 	std::unordered_set<Ray2d> rays;
 	
 public:
 	RayCaster();
-	~RayCaster();
 	RayCaster(Map& map, Entity& entity, int fov, int rayCount);
 	void castRays();
-	std::unordered_set<Ray2d> getRays();
+	const std::unordered_set<Ray2d>& getRays();
 	const int getRayCount();
 	Vector2 getLookRay();
 	Ray2d closestPoint(Vector2 ray);

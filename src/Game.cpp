@@ -1,7 +1,7 @@
 #include "include/Game.h"
 #include "resources/romulus.h"
 
-Map* Game::map;
+Map Game::map;
 Font Game::defaultFont;
 float Screen::scale;
 
@@ -9,22 +9,10 @@ float Screen::scale;
  * Constructor for the Game class.
  */
 Game::Game() {
-
-    // Setup the window and config flags
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-    InitWindow(Screen::screenWidth, Screen::screenHeight, "Raycaster");
-    SetWindowSize(Screen::screenWidth, Screen::screenHeight);
-    
-    SetExitKey(KEY_NULL);
-  
-    SetTextureFilter(Screen::mainLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
-    defaultFont = LoadFont_Romulus();
-    SetTargetFPS(60);
-    if (map == nullptr)
-        map = new Map();
-    map->loadMap("map");
-    player = Player({ 550,500 }, *map);
-    rayCaster = RayCaster(*map, *player.getEntity(), 66, 300);
+    map = Map();
+    map.loadMap();
+    player = Player(Vector2{ 1110,1110 }, map);
+    rayCaster = RayCaster(map, player.getEntity(), 66, 500);
     
     frameCounter = 0;
 }
@@ -34,7 +22,11 @@ Game::Game() {
  */
 std::shared_ptr<Screen> Game::update(Input& input) {
     if (input.isPaused()) {
-        return Screen::getInstanceOf<PauseScreen>();
+        std::shared_ptr<Screen> screen = Screen::getInstanceOf<PauseScreen>();
+        /* the main/secondary layer is not static or anything, so we need to set the main layer
+           of the pause screen to be the game's main layer.*/
+        screen.get()->mainLayer = mainLayer;
+        return screen;
     }
     frameCounter++;
     player.setMoveVec(input.getMoveVec());
@@ -47,7 +39,7 @@ std::shared_ptr<Screen> Game::update(Input& input) {
 /*
  * Returns the map 
  */
-Map* Game::getMap()
+Map& Game::getMap()
 {
     return map;
 }
@@ -57,8 +49,13 @@ Map* Game::getMap()
  */
 void Game::doLogic() {
     rayCaster.castRays();
-    for (auto line : map->getLineVector()) {
-        Vector2 res = findPointOfIntersection(player.getPosition(),player.getNextPosition(), line.p1, line.p2);
+    // Do the collision check.
+    for (auto line : map.getLineVector()) {
+        Vector2 nextPos = Vector2Scale(player.getNextMoveVec(), 1.4); // Scale up the next position vector slightly so we ensure we aren't 
+                                                                      // so close so as to cause graphical bugs
+        nextPos.x += player.getPosition().x;
+        nextPos.y += player.getPosition().y;
+        Vector2 res = findPointOfIntersection(player.getPosition(),nextPos, line.p1, line.p2);
         if (res.x != -1 && res.y != -1) {
             return;
         }
@@ -77,20 +74,20 @@ void Game::render() {
     Vector2 position = player.getPosition();
     Color lightBlue = Color{ 64, 96, 145,255 };
     Color darkBlue = Color{ 12, 24, 41,255 };
-    BeginTextureMode(Screen::mainLayer);
+    BeginTextureMode(this->mainLayer);
         ClearBackground(RAYWHITE);
-        char positionStr[50];
-        std::snprintf(positionStr, 50, "Position: (%f,%f)", position.x, position.y);
-        char lookStr[50];
-        std::snprintf(lookStr, 50, "wasd to move the player, arrow keys to move the camera ");
+        
         // Create the background 
         DrawRectangleGradientV(0, 0, screenWidth, screenHeight / 2, lightBlue, darkBlue);
         DrawRectangleGradientV(0, screenHeight / 2, screenWidth, screenHeight / 2, darkBlue, lightBlue);
-
-        drawView();
-
+        char positionStr[50];
+        std::snprintf(positionStr, 50, "Position: (%f,%f)", position.x, position.y);
+        char lookStr[50];
+        std::snprintf(lookStr, 50, "Rotation: (%f)", player.getRotation());
         DrawText(positionStr, 10, 50, 30, LIGHTGRAY);
         DrawText(lookStr, 10, 75, 30, LIGHTGRAY);
+        drawView();
+
         DrawFPS(10, 10);
     EndTextureMode();
 }
@@ -102,21 +99,21 @@ void Game::drawView() {
     std::unordered_set<Ray2d> rays = rayCaster.getRays();
     float const lineWidth = (float)screenWidth / (float)rayCaster.getRayCount();
     float dist;
-    int count = 0;
     int wallSize = 20;
     int wallHeight = 96;
     float intensity;
     Vector2 lineStart = { 0, 0,};
     Vector2 lineEnd = { 0,screenHeight / 2 - 150 };
     Vector2 rayVector = { 0,0 };
-    Color colorVal;
+    Color colorVal = Color{0,0,0,255};
 
    for (auto const ray : rays) {
        
         rayVector.x = abs(ray.point.x - player.getPosition().x);
         rayVector.y = abs(ray.point.y - player.getPosition().y);
+
         // Get the distance (Add a tiny constant so we never divide by 0)
-        dist = sqrt(rayVector.x * rayVector.x + rayVector.y * rayVector.y);
+        dist = abs(sqrt(rayVector.x * rayVector.x + rayVector.y * rayVector.y));
         float lineSize = ((wallHeight / dist) * 277) + wallSize;
         // for the y positions, we start the line in the middle of the screen
         // plus half the line height so the line is centered. 
@@ -139,18 +136,9 @@ void Game::drawView() {
         intensity = Normalize(intensity, 0, 1);
         colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
         colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
-        colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r); 
+        colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r);
+
         DrawLineEx(lineStart, lineEnd, lineWidth , colorVal);
         
     }
-}
-
-
-/**
- * Deconstructor for the Game class.
- */
-Game::~Game() {
-    delete map;
-  // UnloadRenderTexture();        
-    CloseWindow();
 }

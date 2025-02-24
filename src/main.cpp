@@ -2,7 +2,7 @@
 * Raycaster by Noah Bilmer
 ********************************************************************************************/
 
-#include "include/input.h"
+#include "include/Input.h"
 #include "raymath.h"
 #include "raylib.h"
 #include "include/Player.h"
@@ -12,16 +12,18 @@
 #include <iostream>
 #include "include/Game.h"
 #include "include/Screen.h"
+#include "include/TitleScreen.h"
+#include "resources/romulus.h"
 
-//#define PLATFORM_WEB 1
+#define PLATFORM_WEB 1
+
+#if defined(PLATFORM_WEB)
+#include "emscripten/emscripten.h"
+#endif
 
 std::unique_ptr<Game> game;
 Input input;
 std::shared_ptr<Screen> currScreen;
-RenderTexture2D Screen::mainLayer;
-RenderTexture2D Screen::secondaryLayer;
-unsigned char Screen::secondaryLayerTransparency;
-unsigned char Screen::mainLayerTransparency;
 
 void update();
 /**
@@ -29,14 +31,20 @@ void update();
  */
 int main(void)
 {
-    Screen::setupScreenArray();
-    Screen::mainLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
-    Screen::mainLayerTransparency = 255;
-    Screen::secondaryLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
-    Screen::secondaryLayerTransparency = 255;
-    currScreen = Screen::getInstanceOf<Game>();
+    // Setup the window and config flags
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    InitWindow(Screen::screenWidth, Screen::screenHeight, "Raycaster");
+    SetWindowSize(Screen::screenWidth, Screen::screenHeight);
+    SetExitKey(KEY_NULL);
+    Game::defaultFont = LoadFont_Romulus();
 
-    // Init the game
+    SetTargetFPS(60);
+    // Initialize all of the screens in the application. 
+    // Note that this means we will call the constructors of every screen.
+    Screen::setupScreenArray();
+    
+    currScreen = Screen::getInstanceOf<TitleScreen>();
+
     #if defined(PLATFORM_WEB)
         emscripten_set_main_loop(update, 0, 1);
 #   else
@@ -47,27 +55,32 @@ int main(void)
     }
     #endif
     
+    CloseWindow();                      // Close window and OpenGL context
     return 0;
 }
 
 /*
  * The update function for the game. Runs every frame, uses polymorphism to call
- * the required update function for the current screen.
+ * the required update function for the current screen (the update function returns 
+ * the next screen to be displayed.)
  */
 void update() {
     Screen::scale = MIN((float)GetScreenWidth() / Screen::screenWidth, (float)GetScreenHeight() / Screen::screenHeight);
     input.getInput();
+    // Get our next screen
     currScreen = currScreen.get()->update(input);
+    // Draw the current screen
     BeginDrawing();
-        DrawTexturePro(Screen::mainLayer.texture, Rectangle{ 0.0f, 0.0f, (float)Screen::mainLayer.texture.width, (float)-Screen::mainLayer.texture.height },
+        DrawTexturePro(currScreen.get()->mainLayer.texture, Rectangle{0.0f, 0.0f, (float)currScreen.get()->mainLayer.texture.width, (float)-currScreen.get()->mainLayer.texture.height},
             Rectangle{ (GetScreenWidth() - ((float)Screen::screenWidth * Screen::scale)) * 0.5f, (GetScreenHeight() - ((float)Screen::screenHeight * Screen::scale)) * 0.5f,
             (float)Screen::screenWidth * Screen::scale, (float)Screen::screenHeight * Screen::scale },
-            Vector2{ 0, 0 }, 0.0f, Color{255,255,255,Screen::mainLayerTransparency});
+            Vector2{ 0, 0 }, 0.0f, Color{255,255,255,currScreen.get()->mainLayerTransparency});
         
-        DrawTexturePro(Screen::secondaryLayer.texture, Rectangle{ 0.0f, 0.0f, (float)Screen::secondaryLayer.texture.width, (float)-Screen::secondaryLayer.texture.height },
-            Rectangle{ (GetScreenWidth() - ((float)Screen::screenWidth * Screen::scale)) * 0.5f, (GetScreenHeight() - ((float)Screen::screenHeight * Screen::scale)) * 0.5f,
-            (float)Screen::screenWidth * Screen::scale, (float)Screen::screenHeight * Screen::scale },
-            Vector2{ 0, 0 }, 0.0f, Color{ 255,255,255,Screen::secondaryLayerTransparency });
+        if (currScreen.get()->isUsingSecondaryLayer())
+            DrawTexturePro(currScreen.get()->secondaryLayer.texture, Rectangle{ 0.0f, 0.0f, (float)currScreen.get()->secondaryLayer.texture.width, (float)-currScreen.get()->secondaryLayer.texture.height },
+                Rectangle{ (GetScreenWidth() - ((float)Screen::screenWidth * Screen::scale)) * 0.5f, (GetScreenHeight() - ((float)Screen::screenHeight * Screen::scale)) * 0.5f,
+                (float)Screen::screenWidth * Screen::scale, (float)Screen::screenHeight * Screen::scale },
+                Vector2{ 0, 0 }, 0.0f, Color{ 255,255,255,currScreen.get()->secondaryLayerTransparency });
         ClearBackground(BLACK);
     EndDrawing();
 }

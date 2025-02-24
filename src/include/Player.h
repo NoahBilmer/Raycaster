@@ -14,6 +14,8 @@ public:
 	Player();
 	Player(Vector2 startPos, Map& map);
 	void UpdateStateVecs(Vector2 moveVec, Vector2 lookVec);
+	Vector2 getNextPosition();
+	Vector2 getNextMoveVec();
 	Vector2 getMoveVec();
 	void setMoveVec(Vector2 newVec);
 	void updateRotation(int newDir);
@@ -21,15 +23,14 @@ public:
 	Vector2 getPosition();
 	float getRotation();
 	void updatePosition();
-	Vector2 getNextPosition();
-	Entity* getEntity();
+	Entity& getEntity();
 
 private: 
 	Vector2 moveVec;  // Movement vector
 	Vector2 lookVec;  // Normalized vector representing the look direction
 	Vector2 horizontalVec; // the vector perpendicular to the look direction. 
-	Entity* entity;
-	Map* map;
+	Entity entity;
+	Map map;
 	float speed;
 	int fov = 66;
 };

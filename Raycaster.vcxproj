@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClInclude Include="src\include\Entity.h" />
     <ClInclude Include="src\include\Game.h" />
-    <ClInclude Include="src\include\GameScreen.h" />
     <ClInclude Include="src\include\Helpers.h" />
     <ClInclude Include="src\include\Input.h" />
     <ClInclude Include="src\include\Map.h" />
@@ -158,7 +157,6 @@
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
-    <ClCompile Include="src\ui\Slider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

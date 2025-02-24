@@ -3,41 +3,30 @@
 
 /* Default constructor
 */
-RayCaster::RayCaster()
-{
-	this->map = Game::getMap();
-	this->entity = new Entity{ Vector2{500,500},90 };
-	fov = 66;
-	rayCount = 300;
-}
+RayCaster::RayCaster() : RayCaster(Game::getMap(), defaultEntity, 66, 300) {}
+
 
 /* Custom constructor for the RayCaster
- * @params map      - the map to use (Not this classes responsibility to free())
+ * @params map      - the map to use 
  *         entity   - the entity to use 
  *		   fov      - the fov of the raycaster
  *		   rayCount - the number of rays to cast
  */
-RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount)
+RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount) : entity(entity),map(map)
 {
-	this->map = &map;
-	this->entity = &entity;
+	this->map = map;
+	this->entity = entity;
 	this->fov = fov;
 	this->rayCount = rayCount;
-}
-
-RayCaster::~RayCaster()
-{
-	
 }
 
 /* Cast out a ray from the player position to the nearest object.
  * and then return the point of intersection.
  */ 
-void RayCaster::castRays()
-{
+void RayCaster::castRays() {
 	rays.clear();
-	float theta = entity->rotation*DEG2RAD;
-	const long float deg = (0.0174533 * fov) / rayCount;
+	float theta = entity.get().rotation*DEG2RAD;
+	const float deg = (0.0174533 * fov) / rayCount;
 	theta = theta - deg;
 	for (int i = 0; i < rayCount; i++) {
 		theta += deg;
@@ -51,7 +40,7 @@ void RayCaster::castRays()
 
 /* Returns the unordered set of rays
  */
-std::unordered_set<Ray2d> RayCaster::getRays() {
+const std::unordered_set<Ray2d>& RayCaster::getRays() {
 	return rays;
 }
 
@@ -66,7 +55,7 @@ const int RayCaster::getRayCount()
  */
 Vector2 RayCaster::getLookRay()
 {
-	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity->rotation + (DEG2RAD * fov / 2)));
+	return Vector2Normalize(getRayFromAngle(DEG2RAD * entity.get().rotation + (DEG2RAD * fov / 2)));
 }
 
 
@@ -80,16 +69,16 @@ Vector2 RayCaster::getLookRay()
  *
  */
 Ray2d RayCaster::closestPoint(Vector2 ray) {
-	Vector2 lookVecAbs = { (entity->position.x + ray.x), (entity->position.y + ray.y)};
+	Vector2 lookVecAbs = { (entity.get().position.x + ray.x), (entity.get().position.y + ray.y)};
 	Vector2 point;
 	float closestDistance = 99999;
 	float distance;
 	Ray2d closestPoint = Ray2d({ -1,-1 }, BLUE);
 	// Loop through all the lines on the map and determine the closest line that intersects
 	// TODO: more efficient solution ?
-	for (Line line : map->getLineVector()) {
-		point = findPointOfIntersection(line.p1, line.p2, entity->position, lookVecAbs);
-		distance = Vector2Distance(entity->position, point);
+	for (Line line : map.getLineVector()) {
+		point = findPointOfIntersection(line.p1, line.p2, entity.get().position, lookVecAbs);
+		distance = Vector2Distance(entity.get().position, point);
 		if (point.x == -1 && point.y == -1) 
 			continue;
 		if (distance < closestDistance) {
@@ -107,7 +96,7 @@ Ray2d RayCaster::closestPoint(Vector2 ray) {
  */
 Vector2 RayCaster::getPosition()
 {
-	return entity->position;
+	return entity.get().position;
 }
 
 /*
@@ -115,7 +104,7 @@ Vector2 RayCaster::getPosition()
  */
 float RayCaster::getRotation()
 {
-	return entity->rotation;
+	return entity.get().rotation;
 }
 
 /*
