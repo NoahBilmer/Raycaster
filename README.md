@@ -4,7 +4,9 @@ This is a a basic raycasting demo built in C++ using a library called [raylib](h
 
 # Background
 
-Much of the engine is based on a [design document](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/) by F. Permadi, although some of the decisions I made simply through inituition. To be specific, the primary difference between my implementation and most of the common ones is that I calculate the point of intersection between each line and player rather than arriving at the same result using grid-based math. This allows my engine to create objects of any size or shape, at the cost of performance.
+By "Raycasting", I'm refering to the ***psuedo***-3d rendering technique that was used in a lot of early 3D video games like DOOM and Wolfenstein-3d. 
+
+Much of the engine is based on a detailed [design document](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/) written by F. Permadi, although some of the decisions I made simply through inituition. To be specific, the primary difference between my implementation and most of the common ones is that I calculate the point of intersection between each line and player rather than arriving at the same result using grid-based math. This allows my engine to create objects of any size or shape, at the cost of performance.
 
 # Development Enviorment 
 
