@@ -14,7 +14,7 @@ public:
 	void draw();
 	
 private: 
-	Color textColor;
+	Color textColor = {0,0,0,255};
 	int colorFadeDir;
 	float scale;
 	RenderTexture2D pauseTarget;

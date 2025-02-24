@@ -8,11 +8,12 @@ std::array<std::shared_ptr<Screen>, Screen::screenCount> Screen::screenArr;
 
 Screen::Screen()
 {
-	
 	mainLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
 	mainLayerTransparency = 255;
 	secondaryLayer = LoadRenderTexture(Screen::screenWidth, Screen::screenHeight);
 	secondaryLayerTransparency = 255;
+	SetTextureFilter(mainLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+	SetTextureFilter(secondaryLayer.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
 }
 
 Screen::~Screen()
@@ -37,7 +38,7 @@ bool Screen::isUsingSecondaryLayer()
 void Screen::clearScreen()
 {
 	UnloadRenderTexture(this->mainLayer);
-	UnloadRenderTexture(secondaryLayer);
+	UnloadRenderTexture(this->secondaryLayer);
 	mainLayer = LoadRenderTexture(screenWidth, screenHeight);
 	secondaryLayer = LoadRenderTexture(screenWidth, screenHeight);
 }

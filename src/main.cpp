@@ -17,6 +17,10 @@
 
 //#define PLATFORM_WEB 1
 
+#if defined(PLATFORM_WEB)
+#include "emscripten/emscripten.h"
+#endif
+
 std::unique_ptr<Game> game;
 Input input;
 std::shared_ptr<Screen> currScreen;

@@ -70,7 +70,7 @@ void Game::render() {
     Vector2 position = player.getPosition();
     Color lightBlue = Color{ 64, 96, 145,255 };
     Color darkBlue = Color{ 12, 24, 41,255 };
-    BeginTextureMode(Screen::mainLayer);
+    BeginTextureMode(this->mainLayer);
         ClearBackground(RAYWHITE);
         
         // Create the background 
@@ -102,14 +102,15 @@ void Game::drawView() {
     Vector2 lineStart = { 0, 0,};
     Vector2 lineEnd = { 0,screenHeight / 2 - 150 };
     Vector2 rayVector = { 0,0 };
-    Color colorVal;
+    Color colorVal = Color{0,0,0,255};
 
    for (auto const ray : rays) {
        
         rayVector.x = abs(ray.point.x - player.getPosition().x);
         rayVector.y = abs(ray.point.y - player.getPosition().y);
+        float angle = atan2(rayVector.y,rayVector.x);
         // Get the distance (Add a tiny constant so we never divide by 0)
-        dist = sqrt(rayVector.x * rayVector.x + rayVector.y * rayVector.y);
+        dist = abs(sqrt(rayVector.x * rayVector.x + rayVector.y * rayVector.y));
         float lineSize = ((wallHeight / dist) * 277) + wallSize;
         // for the y positions, we start the line in the middle of the screen
         // plus half the line height so the line is centered. 
@@ -132,7 +133,8 @@ void Game::drawView() {
         intensity = Normalize(intensity, 0, 1);
         colorVal.b = Clamp(colorVal.b * intensity, 0 ,ray.color.b);
         colorVal.g = Clamp(colorVal.g * intensity, 0, ray.color.g);
-        colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r); 
+        colorVal.r = Clamp(colorVal.r * intensity, 0, ray.color.r);
+
         DrawLineEx(lineStart, lineEnd, lineWidth , colorVal);
         
     }

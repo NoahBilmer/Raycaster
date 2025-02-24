@@ -45,13 +45,24 @@ void Map::loadMap()
 	createRect(Rectangle{ 1375,1075,15,15 }, DARKPURPLE);
 	createRect(Rectangle{ 1400,1135,15,15 }, GRAY);
 	createRect(Rectangle{ 1400,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1425,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1425,1075,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1450,1135,15,15 }, GRAY);
+	createRect(Rectangle{ 1450,1075,15,15 }, GRAY);
+	createRect(Rectangle{ 1475,1135,15,15 }, DARKPURPLE);
+	createRect(Rectangle{ 1475,1075,15,15 }, DARKPURPLE);
 
-	
 	createRect(Rectangle{ 875,1275,50,200 }, DARKBLUE);
 	
 	createRect(Rectangle{ 1350,1275,50,200 }, DARKBLUE);
 	createRect(Rectangle{ 1025,1525,50,200 }, DARKBLUE);
 	createRect(Rectangle{ 1150,1525,50,200 }, DARKBLUE);
+
+	createRect(Rectangle{ 1750,1625,100,100 }, WHITE);
+	createRect(Rectangle{ 1550,1875,100,100 }, WHITE);
+	createRect(Rectangle{ 1650,1750,100,100 }, WHITE);
+	createRect(Rectangle{ 1650,1500,100,100 }, WHITE);
+	createRect(Rectangle{ 1550,1375,100,100 }, WHITE);
 	
 }
 

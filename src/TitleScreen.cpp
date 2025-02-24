@@ -6,6 +6,9 @@
  */
 TitleScreen::TitleScreen()
 {
+    useSecondaryLayer = false;
+    mainLayerTransparency = 255;
+
     fontSize = 60;
     smallFontSize = 35;
     txt = "start";
@@ -26,8 +29,6 @@ TitleScreen::TitleScreen()
 std::shared_ptr<Screen> TitleScreen::update(Input& input)
 {
     frameCount++;
-    Screen::mainLayerTransparency = 255;
-    Screen::secondaryLayerTransparency = 255;
     startBtn.updateState();
     if (startBtn.isPressed() || input.startKeyPressed()) {
         Screen::clearScreen();
@@ -43,7 +44,7 @@ std::shared_ptr<Screen> TitleScreen::update(Input& input)
  */
 void TitleScreen::draw()
 {
-	BeginTextureMode(Screen::mainLayer);
+	BeginTextureMode(this->mainLayer);
         transitionBackgroundHue(&backgroundColor,&colorFadeDir);
         startBtn.draw();
         ClearBackground(backgroundColor);

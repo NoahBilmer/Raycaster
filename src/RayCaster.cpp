@@ -26,7 +26,7 @@ RayCaster::RayCaster(Map& map, Entity& entity,int fov, int rayCount) : entity(en
 void RayCaster::castRays() {
 	rays.clear();
 	float theta = entity.get().rotation*DEG2RAD;
-	const long float deg = (0.0174533 * fov) / rayCount;
+	const float deg = (0.0174533 * fov) / rayCount;
 	theta = theta - deg;
 	for (int i = 0; i < rayCount; i++) {
 		theta += deg;

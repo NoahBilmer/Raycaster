@@ -26,7 +26,7 @@ private:
 	Vector2 titleLength;
 	Vector2 infoLength;
 	Vector2 githubLength;
-	Color backgroundColor;
+	Color backgroundColor = { 0,0,0,255 };
 	int colorFadeDir;
 	Button startBtn;
 	int frameCount;

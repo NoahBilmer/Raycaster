@@ -23,12 +23,12 @@ PauseScreen::PauseScreen()
 std::shared_ptr<Screen> PauseScreen::update(Input& input)
 {
     if (!input.isPaused()) {
-        Screen::clearScreen();
+        //Screen::clearScreen();
         return Screen::getInstanceOf<Game>();
     }
     exitBtn.updateState();
     if (exitBtn.isPressed()) {
-        Screen::clearScreen();
+        //Screen::clearScreen();
         return Screen::getInstanceOf<TitleScreen>();
     }
     draw();
@@ -45,7 +45,7 @@ void PauseScreen::draw()
     std::string pauseTxt = "paused";
     Vector2 pauseTxtLength = MeasureTextEx(Game::defaultFont, pauseTxt.c_str(), fontSize, 2);
     transitionBackgroundHue(&textColor, &colorFadeDir);
-    BeginTextureMode(Screen::secondaryLayer);
+    BeginTextureMode(this->secondaryLayer);
     DrawTextEx(Game::defaultFont, pauseTxt.c_str(), Vector2{ (Screen::screenWidth / 2) - pauseTxtLength.x / 2, (float)fontSize }, fontSize, 2, textColor);
     exitBtn.draw();
     EndTextureMode();
