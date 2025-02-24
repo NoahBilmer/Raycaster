@@ -14,3 +14,6 @@ Refer to https://github.com/raysan5/raylib/wiki to setup the development enviorm
 
 - Enusre web assembly is setup correctly (You need to install emscripten as well as compile the library with some specific flags enabled, refer to https://github.com/raysan5/raylib/wiki/Working-for-Web-(HTML5).)
 - Run `compile_for_web.bat`
+
+# Screenshot
+![screenshot](https://github.com/user-attachments/assets/72b5cdaa-53cd-47b1-9eb1-570163e76099)
